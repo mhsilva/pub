@@ -52,6 +52,9 @@ public class PubGooglePlacesApi {
               /*  placesName = new String[placeLikelihoodCollection.size()];
                 placeLikelihoodCollection.toArray(placesName);*/
 
+
+
+
                 placesName = new String[placesColection.size()];
                 placesColection.toArray(placesName);
                 likelyPlaces.release();
