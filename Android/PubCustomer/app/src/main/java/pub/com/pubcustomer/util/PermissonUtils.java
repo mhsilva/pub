@@ -1,0 +1,39 @@
+package pub.com.pubcustomer.util;
+
+import android.app.Activity;
+import android.content.pm.PackageManager;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Created by Fernando Santiago on 01/08/2016.
+ */
+public class PermissonUtils {
+
+    public static boolean validate(Activity acitivity, int requestcode, String... permissions) {
+
+        List<String> list = new ArrayList<String>();
+        for (String permission : permissions) {
+
+            boolean ok = ContextCompat.checkSelfPermission(acitivity, permission) == PackageManager.PERMISSION_GRANTED;
+
+            if (!ok) {
+                list.add(permission);
+            }
+        }
+
+        if (list.isEmpty()) {
+            return true;
+        }
+
+        String[] newPermissions = new String[list.size()];
+        list.toArray(newPermissions);
+
+        ActivityCompat.requestPermissions(acitivity, newPermissions, 1);
+        return false;
+
+    }
+}
