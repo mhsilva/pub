@@ -1,4 +1,4 @@
-package pub.com.pubcustomer;
+package com.pub.pubcustomer;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

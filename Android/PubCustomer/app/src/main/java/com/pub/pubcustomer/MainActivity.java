@@ -1,4 +1,4 @@
-package pub.com.pubcustomer;
+package com.pub.pubcustomer;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -19,7 +19,6 @@ public class MainActivity extends AppCompatActivity {
 
     private GoogleApiClient mGoogleApiClient;
     private ListView mListView;
-    private List<PlaceLikelihood> placeLikelihoodCollection = new ArrayList<>();
     List<String> placesCollection = new ArrayList<>();
 
     @Override

@@ -1,4 +1,4 @@
-package pub.com.pubcustomer.ui;
+package com.pub.pubcustomer.ui;
 
 import android.Manifest;
 import android.content.Intent;
@@ -6,10 +6,11 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-import pub.com.pubcustomer.MainActivity;
-import pub.com.pubcustomer.R;
-import pub.com.pubcustomer.utils.AlertUtils;
-import pub.com.pubcustomer.utils.PermissonUtils;
+import com.pub.pubcustomer.MainActivity;
+import com.pub.pubcustomer.utils.AlertUtils;
+import com.pub.pubcustomer.utils.PermissonUtils;
+
+import com.pub.pubcustomer.R;
 
 /**
  * Created by Fernando Santiago on 28/07/2016.
