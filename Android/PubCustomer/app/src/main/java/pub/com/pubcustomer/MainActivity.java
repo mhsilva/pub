@@ -20,10 +20,11 @@ public class MainActivity extends AppCompatActivity {
     private GoogleApiClient mGoogleApiClient;
     private ListView mListView;
     private List<PlaceLikelihood> placeLikelihoodCollection = new ArrayList<>();
-    List<String> placesColection= new ArrayList<>();
+    List<String> placesCollection = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -52,41 +53,24 @@ public class MainActivity extends AppCompatActivity {
 
         PendingResult<PlaceLikelihoodBuffer> result = Places.PlaceDetectionApi
                 .getCurrentPlace(mGoogleApiClient, null);
+
         result.setResultCallback(new ResultCallback<PlaceLikelihoodBuffer>() {
             @Override
             public void onResult(PlaceLikelihoodBuffer likelyPlaces) {
 
                 for (PlaceLikelihood placeLikelihood : likelyPlaces) {
-                    //placeLikelihoodCollection.add(placeLikelihood);
-                    placesColection.add(placeLikelihood.getPlace().getName().toString());
-
-                  /*  Log.i("TESTE", String.format("Place '%s' has likelihood: %g",
-                            placeLikelihood.getPlace().getName(),
-                            placeLikelihood.getLikelihood()));*/
-
+                    placesCollection.add(placeLikelihood.getPlace().getName().toString());
                 }
-
-           /*  Collections.sort(placeLikelihoodCollection, new Comparator<PlaceLikelihood>() {
-                    @Override
-                    public int compare(PlaceLikelihood o1, PlaceLikelihood o2) {
-                        return o1.getLikelihood() < o2.getLikelihood() ? -1
-                                : o1.getLikelihood() > o2.getLikelihood() ? 1
-                                : 0;
-                    }
-
-                });*/
 
                 mListView = (ListView) findViewById(R.id.listView);
 
-                if(placesColection!= null){
-                    mListView.setAdapter(new ArrayAdapter<String>(MainActivity.this, R.layout.activity_main,R.id.textView, placesColection));
-                }else
-                {
-                    mListView.setAdapter(new ArrayAdapter<String>(MainActivity.this, R.layout.activity_main,R.id.textView, new String[]{"No Places Found"}));
+                if(placesCollection.size() == 0) {
+                    placesCollection.add("No Places Found");
                 }
 
-                likelyPlaces.release();
+                mListView.setAdapter(new ArrayAdapter<String>(MainActivity.this, R.layout.activity_main,R.id.textView, placesCollection));
 
+                likelyPlaces.release();
             }
         });
     }

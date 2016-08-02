@@ -8,8 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 
 import pub.com.pubcustomer.MainActivity;
 import pub.com.pubcustomer.R;
-import pub.com.pubcustomer.util.AlertUtils;
-import pub.com.pubcustomer.util.PermissonUtils;
+import pub.com.pubcustomer.utils.AlertUtils;
+import pub.com.pubcustomer.utils.PermissonUtils;
 
 /**
  * Created by Fernando Santiago on 28/07/2016.
@@ -38,11 +38,9 @@ public class SplashActivity extends AppCompatActivity   {
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         for (int result : grantResults) {
             if (result == PackageManager.PERMISSION_DENIED) {
-                // Negou a permissão. Mostra alerta e fecha.
                 AlertUtils.alert(this, R.string.app_name, R.string.msg_alerta_permissao,R.string.ok, new Runnable() {
                     @Override
                     public void run() {
-                        // Negou permissão. Sai do app.
                         finish();
                     }
                 });
@@ -50,7 +48,6 @@ public class SplashActivity extends AppCompatActivity   {
             }
         }
 
-        // Permissões concedidas, pode entrar.
         startActivity(new Intent(this, MainActivity.class));
         finish();
     }

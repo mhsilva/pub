@@ -1,4 +1,4 @@
-package pub.com.pubcustomer.util;
+package pub.com.pubcustomer.utils;
 
 import android.app.Activity;
 import android.app.AlertDialog;

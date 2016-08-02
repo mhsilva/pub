@@ -1,4 +1,4 @@
-package pub.com.pubcustomer.util;
+package pub.com.pubcustomer.utils;
 
 import android.app.Activity;
 import android.content.pm.PackageManager;
@@ -13,12 +13,12 @@ import java.util.List;
  */
 public class PermissonUtils {
 
-    public static boolean validate(Activity acitivity, int requestcode, String... permissions) {
+    public static boolean validate(Activity activity, int requestCode, String... permissions) {
 
         List<String> list = new ArrayList<String>();
         for (String permission : permissions) {
 
-            boolean ok = ContextCompat.checkSelfPermission(acitivity, permission) == PackageManager.PERMISSION_GRANTED;
+            boolean ok = ContextCompat.checkSelfPermission(activity, permission) == PackageManager.PERMISSION_GRANTED;
 
             if (!ok) {
                 list.add(permission);
@@ -32,8 +32,7 @@ public class PermissonUtils {
         String[] newPermissions = new String[list.size()];
         list.toArray(newPermissions);
 
-        ActivityCompat.requestPermissions(acitivity, newPermissions, 1);
+        ActivityCompat.requestPermissions(activity, newPermissions, 1);
         return false;
-
     }
 }
