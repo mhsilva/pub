@@ -2,7 +2,6 @@ package com.pub.pubcustomer;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -11,6 +10,8 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.location.places.PlaceLikelihood;
 import com.google.android.gms.location.places.PlaceLikelihoodBuffer;
 import com.google.android.gms.location.places.Places;
+import com.pub.pubcustomer.api.request.PubCallWaiter;
+import com.pub.pubcustomer.ui.PubCurrentPlaceAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
 
     private GoogleApiClient mGoogleApiClient;
     private ListView mListView;
-    List<String> placesCollection = new ArrayList<>();
+    List<PubCallWaiter> pubCallWaiterCollection = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
                 .addApi(Places.PLACE_DETECTION_API)
                 .build();
 
-        getEstablishments(mGoogleApiClient);
+        getGooglePlacesApi(mGoogleApiClient);
     }
 
     @Override
@@ -48,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         super.onStop();
     }
 
-    public void getEstablishments(GoogleApiClient mGoogleApiClient) throws SecurityException {
+    public void getGooglePlacesApi(GoogleApiClient mGoogleApiClient) throws SecurityException {
 
         PendingResult<PlaceLikelihoodBuffer> result = Places.PlaceDetectionApi
                 .getCurrentPlace(mGoogleApiClient, null);
@@ -58,16 +59,15 @@ public class MainActivity extends AppCompatActivity {
             public void onResult(PlaceLikelihoodBuffer likelyPlaces) {
 
                 for (PlaceLikelihood placeLikelihood : likelyPlaces) {
-                    placesCollection.add(placeLikelihood.getPlace().getName().toString());
+                    pubCallWaiterCollection.add(new PubCallWaiter(placeLikelihood.getPlace().getId().toString(),placeLikelihood.getPlace().getName().toString()));
                 }
 
                 mListView = (ListView) findViewById(R.id.listView);
 
-                if(placesCollection.size() == 0) {
-                    placesCollection.add("No Places Found");
-                }
+               if(pubCallWaiterCollection.size() == 0)
+                   pubCallWaiterCollection.add(new PubCallWaiter("0","No places found"));
 
-                mListView.setAdapter(new ArrayAdapter<String>(MainActivity.this, R.layout.activity_main,R.id.textView, placesCollection));
+                mListView.setAdapter(new PubCurrentPlaceAdapter(MainActivity.this,pubCallWaiterCollection));
 
                 likelyPlaces.release();
             }

@@ -8,6 +8,14 @@ public class PubCallWaiter {
     private String locationId;
     private String tableNumber;
 
+    public PubCallWaiter() {
+    }
+
+    public PubCallWaiter(String locationId, String tableNumber) {
+        this.locationId = locationId;
+        this.tableNumber = tableNumber;
+    }
+
     public String getLocationId() {
         return locationId;
     }
