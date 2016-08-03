@@ -12,6 +12,7 @@ import android.widget.EditText;
 import com.pub.pubwaiter.entity.PubWaiter;
 import com.pub.pubwaiter.gcmservice.GcmIntentService;
 import com.pub.pubwaiter.rest.util.PubRestService;
+import com.pub.pubwaiter.rest.util.PubWaiterRestHelper;
 import com.pub.pubwaiter.util.PubConstants;
 
 public class MainActivity extends AppCompatActivity {
@@ -37,17 +38,13 @@ public class MainActivity extends AppCompatActivity {
     public void registerWaiterOnClick(View view) {
         String token = sharedPreferences.getString(PubConstants.TOKEN, null);
         PubWaiter pubWaiter = new PubWaiter();
+        String login = waiterPhone.getText().toString();
         pubWaiter.setName(waiterName.getText().toString());
-        pubWaiter.setLogin(waiterPhone.getText().toString());
+        pubWaiter.setLogin(login);
         pubWaiter.setToken(token);
-        registerWaiter(pubWaiter);
-    }
-
-    private void registerWaiter(PubWaiter pubWaiter) {
-        Log.d("TAG", "Sending token.");
-        Intent i = new Intent(this, PubRestService.class);
-        i.setAction("start");
-        i.putExtra(PubConstants.PUB_WAITER, pubWaiter);
-        startService(i);
+        PubWaiterRestHelper.registerWaiter(this,pubWaiter);
+        sharedPreferences.edit().putString(PubConstants.WAITER_LOGIN, login);
+        Intent i = new Intent(this, TablesCallingActivity.class);
+        startActivity(i);
     }
 }

@@ -14,14 +14,15 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+        <activity android:name=".MainActivity"/>
+        <activity android:name=".TablesCallingActivity"/>
         <!-- [START gcm_receiver] -->
         <receiver
             android:name="com.google.android.gms.gcm.GcmReceiver"
@@ -43,6 +44,16 @@
             </intent-filter>
         </service>
         <!-- [END gcm_listener] -->
+
+        <!-- [START instanceId_listener] -->
+        <service
+            android:name=".gcmservice.PubInstanceIDListenerService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.android.gms.iid.InstanceID"/>
+            </intent-filter>
+        </service>
+        <!-- [END instanceId_listener] -->
 
         <service android:name=".gcmservice.GcmIntentService"></service>
         <service android:name=".rest.util.PubRestService"></service>

@@ -13,6 +13,7 @@ import android.util.Log;
 import com.google.android.gms.gcm.GcmListenerService;
 import com.pub.pubwaiter.MainActivity;
 import com.pub.pubwaiter.R;
+import com.pub.pubwaiter.SplashActivity;
 
 /**
  * Created by Matheus on 03/08/2016.
@@ -31,7 +32,7 @@ public class PubGcmListener extends GcmListenerService {
     }
 
     private void notifyUser(String message) {
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, SplashActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
                 PendingIntent.FLAG_ONE_SHOT);

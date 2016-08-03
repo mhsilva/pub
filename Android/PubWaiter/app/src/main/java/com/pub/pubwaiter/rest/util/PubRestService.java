@@ -27,7 +27,7 @@ public class PubRestService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.d(TAG, "onStartCommand: Start rest Service.");
         PubWaiter pubWaiter = (PubWaiter) intent.getExtras().getSerializable(PubConstants.PUB_WAITER);
-        PubWaiterRequestTask pubWaiterRequestTask = new PubWaiterRequestTask(this, pubWaiter);
+        PubWaiterRequestTask pubWaiterRequestTask = new PubWaiterRequestTask(getApplicationContext(), pubWaiter);
         pubWaiterRequestTask.execute();
         Log.d(TAG, "onStartCommand: rest Service finish.");
         return START_STICKY;
