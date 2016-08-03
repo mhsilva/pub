@@ -7,13 +7,23 @@ public class PubCallWaiter {
 
     private String locationId;
     private String tableNumber;
+    private String placeName;
+
+    public String getPlaceName() {
+        return placeName;
+    }
+
+    public void setPlaceName(String placeName) {
+        this.placeName = placeName;
+    }
 
     public PubCallWaiter() {
     }
 
-    public PubCallWaiter(String locationId, String tableNumber) {
+    public PubCallWaiter(String locationId, String tableNumber, String placeName) {
         this.locationId = locationId;
         this.tableNumber = tableNumber;
+        this.placeName = placeName;
     }
 
     public String getLocationId() {

@@ -49,12 +49,12 @@ public class PubCurrentPlaceAdapter  extends BaseAdapter {
         View view = LayoutInflater.from(context).inflate(R.layout.adapter_current_place, parent, false);
 
         TextView tvLocationId = (TextView) view.findViewById(R.id.tLocationId);
-        TextView tvTableNumber = (TextView) view.findViewById(R.id.tTableNumber);
+        TextView tvTableNumber = (TextView) view.findViewById(R.id.tPlaceName);
 
         PubCallWaiter pubCallWaiter = placescCollection.get(position);
 
         tvLocationId.setText(pubCallWaiter.getLocationId());
-        tvTableNumber.setText(pubCallWaiter.getTableNumber());
+        tvTableNumber.setText(pubCallWaiter.getPlaceName());
 
         return view;
     }
