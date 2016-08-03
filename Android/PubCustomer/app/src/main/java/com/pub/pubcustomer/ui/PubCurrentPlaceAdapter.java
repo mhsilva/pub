@@ -8,7 +8,6 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.pub.pubcustomer.R;
-import com.pub.pubcustomer.api.request.PubCallWaiter;
 
 import java.util.List;
 
@@ -19,10 +18,10 @@ public class PubCurrentPlaceAdapter  extends BaseAdapter {
 
 
     private final Context context;
-    private final List<PubCallWaiter> placescCollection;
+    private final List<PubPlace> placescCollection;
 
 
-    public PubCurrentPlaceAdapter(Context context,List<PubCallWaiter> placescCollection ){
+    public PubCurrentPlaceAdapter(Context context,List<PubPlace> placescCollection ){
         this.context = context;
         this.placescCollection = placescCollection;
     }
@@ -51,7 +50,7 @@ public class PubCurrentPlaceAdapter  extends BaseAdapter {
         TextView tvLocationId = (TextView) view.findViewById(R.id.tLocationId);
         TextView tvTableNumber = (TextView) view.findViewById(R.id.tPlaceName);
 
-        PubCallWaiter pubCallWaiter = placescCollection.get(position);
+        PubPlace pubCallWaiter = placescCollection.get(position);
 
         tvLocationId.setText(pubCallWaiter.getLocationId());
         tvTableNumber.setText(pubCallWaiter.getPlaceName());

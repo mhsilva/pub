@@ -1,12 +1,11 @@
 package com.pub.pubcustomer.api.response;
 
+/**
+ * Created by Fernando Santiago on 03/08/2016.
+ */
 import java.util.List;
 
-/**
- * Created by Fernando Santiago on 02/08/2016.
- */
 public class PubStatus {
-
     private final long id;
     private final List<String> content;
 
@@ -22,4 +21,5 @@ public class PubStatus {
     public List<String> getContent() {
         return content;
     }
+
 }

@@ -18,6 +18,7 @@ import com.google.android.gms.location.places.PlaceLikelihoodBuffer;
 import com.google.android.gms.location.places.Places;
 import com.pub.pubcustomer.api.request.PubCallWaiter;
 import com.pub.pubcustomer.ui.PubCurrentPlaceAdapter;
+import com.pub.pubcustomer.ui.PubPlace;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +27,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     private GoogleApiClient mGoogleApiClient;
     private ListView mListView;
-    List<PubCallWaiter> pubCallWaiterCollection = new ArrayList<>();
+    List<PubPlace> pubPlaceCollection = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,15 +66,15 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             public void onResult(PlaceLikelihoodBuffer likelyPlaces) {
 
                 for (PlaceLikelihood placeLikelihood : likelyPlaces) {
-                    pubCallWaiterCollection.add(new PubCallWaiter(placeLikelihood.getPlace().getId().toString(),"0",placeLikelihood.getPlace().getName().toString()));
+                    pubPlaceCollection.add(new PubPlace(placeLikelihood.getPlace().getId().toString(),placeLikelihood.getPlace().getName().toString()));
                 }
 
                 mListView = (ListView) findViewById(R.id.listView);
 
-               if(pubCallWaiterCollection.size() == 0)
-                   pubCallWaiterCollection.add(new PubCallWaiter("0","0","No places found"));
+               if(pubPlaceCollection.size() == 0)
+                   pubPlaceCollection.add(new PubPlace("0","No places found"));
 
-                mListView.setAdapter(new PubCurrentPlaceAdapter(MainActivity.this,pubCallWaiterCollection));
+                mListView.setAdapter(new PubCurrentPlaceAdapter(MainActivity.this, pubPlaceCollection));
                 mListView.setOnItemClickListener(MainActivity.this);
 
                 likelyPlaces.release();
@@ -84,13 +85,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int idx, long l) {
 
-        PubCallWaiter pubCallWaiter = this.pubCallWaiterCollection.get(idx);
-       //Toast.makeText(this,"Location" + pubCallWaiter.getLocationId(), Toast.LENGTH_SHORT ).show();
+        final PubPlace  pubPlace = this.pubPlaceCollection.get(idx);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-        builder.setMessage("Are you in " + pubCallWaiter.getPlaceName())
-                .setTitle("Type your table");
+        builder.setMessage("Type your table")
+                .setTitle("Are you at " + pubPlace.getPlaceName());
 
         final EditText input = new EditText(this);
         builder.setView(input);
@@ -99,10 +99,15 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         builder.setPositiveButton("YES",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog,int which) {
-                        // Write your code here to execute after dialog
-                        Toast.makeText(getApplicationContext(),"Password Matched", Toast.LENGTH_SHORT).show();
-                        //Intent myIntent1 = new Intent(view.getContext(), Show.class);
+
+                        PubCallWaiter pubCallWaiter = new PubCallWaiter();
+                        pubCallWaiter.setLocationId(pubPlace.getLocationId());
+                        pubCallWaiter.setTableNumber(input.getText().toString());
+
+                        Toast.makeText(getApplicationContext(),"Location id" + pubCallWaiter.getLocationId() + "Table Number" + pubCallWaiter.getTableNumber() , Toast.LENGTH_SHORT).show();
+
                         //startActivityForResult(myIntent1, 0);
+
                     }
                 });
         // Setting Negative "NO" Button
