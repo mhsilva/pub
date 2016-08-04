@@ -1,6 +1,7 @@
 package com.pub.pubcustomer;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -16,9 +17,11 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.location.places.PlaceLikelihood;
 import com.google.android.gms.location.places.PlaceLikelihoodBuffer;
 import com.google.android.gms.location.places.Places;
-import com.pub.pubcustomer.api.request.PubCallWaiter;
+import com.pub.pubcustomer.api.request.PubCallWaiterApi;
+import com.pub.pubcustomer.ui.PubCallWaiter;
 import com.pub.pubcustomer.ui.PubCurrentPlaceAdapter;
 import com.pub.pubcustomer.ui.PubPlace;
+import com.pub.pubcustomer.utils.PubGsonUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -100,13 +103,16 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog,int which) {
 
-                        PubCallWaiter pubCallWaiter = new PubCallWaiter();
+                        PubCallWaiterApi pubCallWaiter = new PubCallWaiterApi();
                         pubCallWaiter.setLocationId(pubPlace.getLocationId());
                         pubCallWaiter.setTableNumber(input.getText().toString());
 
                         Toast.makeText(getApplicationContext(),"Location id" + pubCallWaiter.getLocationId() + "Table Number" + pubCallWaiter.getTableNumber() , Toast.LENGTH_SHORT).show();
 
-                        //startActivityForResult(myIntent1, 0);
+                        Intent intent = new Intent(MainActivity.this, PubCallWaiter.class);
+                        intent.putExtra("pubCallWaiter", PubGsonUtils.objectToJson(pubCallWaiter) );
+
+                        startActivity(intent);
 
                     }
                 });
@@ -124,5 +130,4 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         dialog.show();
     }
-
 }

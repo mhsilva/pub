@@ -16,7 +16,6 @@ import java.util.List;
  */
 public class PubCurrentPlaceAdapter  extends BaseAdapter {
 
-
     private final Context context;
     private final List<PubPlace> placescCollection;
 
@@ -25,7 +24,6 @@ public class PubCurrentPlaceAdapter  extends BaseAdapter {
         this.context = context;
         this.placescCollection = placescCollection;
     }
-
 
     @Override
     public int getCount() {

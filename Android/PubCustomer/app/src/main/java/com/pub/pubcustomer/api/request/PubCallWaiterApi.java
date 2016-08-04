@@ -5,7 +5,7 @@ package com.pub.pubcustomer.api.request;
  */
 
 
-public class PubCallWaiter {
+public class PubCallWaiterApi {
 
     private String locationId;
     private String tableNumber;
