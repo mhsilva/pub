@@ -98,8 +98,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         final EditText input = new EditText(this);
         builder.setView(input);
 
-        // Setting Positive "Yes" Button
-        builder.setPositiveButton("YES",
+        builder.setPositiveButton(R.string.yes,
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog,int which) {
 
@@ -116,8 +115,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
                     }
                 });
-        // Setting Negative "NO" Button
-        builder.setNegativeButton("NO",
+
+        builder.setNegativeButton(R.string.no,
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         // Write your code here to execute after dialog
@@ -126,8 +125,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 });
 
         AlertDialog dialog = builder.create();
-
-
         dialog.show();
     }
 }

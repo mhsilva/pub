@@ -17,22 +17,22 @@ import java.util.List;
 public class PubCurrentPlaceAdapter  extends BaseAdapter {
 
     private final Context context;
-    private final List<PubPlace> placescCollection;
+    private final List<PubPlace> pubPlaceCollection;
 
 
-    public PubCurrentPlaceAdapter(Context context,List<PubPlace> placescCollection ){
+    public PubCurrentPlaceAdapter(Context context,List<PubPlace> placecCollection ){
         this.context = context;
-        this.placescCollection = placescCollection;
+        this.pubPlaceCollection = placecCollection;
     }
 
     @Override
     public int getCount() {
-        return placescCollection != null ? placescCollection.size() : 0;
+        return pubPlaceCollection != null ? pubPlaceCollection.size() : 0;
     }
 
     @Override
     public Object getItem(int position) {
-        return placescCollection.get(position);
+        return pubPlaceCollection.get(position);
     }
 
     @Override
@@ -48,7 +48,7 @@ public class PubCurrentPlaceAdapter  extends BaseAdapter {
         TextView tvLocationId = (TextView) view.findViewById(R.id.tLocationId);
         TextView tvTableNumber = (TextView) view.findViewById(R.id.tPlaceName);
 
-        PubPlace pubCallWaiter = placescCollection.get(position);
+        PubPlace pubCallWaiter = pubPlaceCollection.get(position);
 
         tvLocationId.setText(pubCallWaiter.getLocationId());
         tvTableNumber.setText(pubCallWaiter.getPlaceName());
