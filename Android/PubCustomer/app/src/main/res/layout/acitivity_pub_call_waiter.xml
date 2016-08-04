@@ -14,13 +14,24 @@
         android:layout_weight="0.79" />
 
     <Button
-        android:id="@+id/button1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:text="Button"
-        android:background="@drawable/circle"
-        android:textColor="#f8fdf9"
-        android:layout_gravity="center_horizontal" />
+        android:text="Call Waiter"
+        android:id="@+id/button"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="0.09"
+        android:onClick="callWaiterOnClick"/>
+    <!--
+        <Button
+            android:id="@+id/button1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="Button"
+            android:background="@drawable/circle"
+            android:textColor="#f8fdf9"
+            android:layout_gravity="center_horizontal" />
+            -->
+
 
 </LinearLayout>

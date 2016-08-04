@@ -112,6 +112,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                         intent.putExtra("pubCallWaiter", PubGsonUtils.objectToJson(pubCallWaiter) );
 
                         startActivity(intent);
+                        finish();
 
                     }
                 });

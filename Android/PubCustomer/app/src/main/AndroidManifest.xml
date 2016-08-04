@@ -3,6 +3,7 @@
     package="com.pub.pubcustomer">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:allowBackup="true"
@@ -26,6 +27,8 @@
         <activity android:name="com.pub.pubcustomer.MainActivity" />
 
         <activity android:name="com.pub.pubcustomer.ui.PubCallWaiter" />
+
+        <service android:name=".rest.PubRestCallWaiterService"></service>
 
     </application>
 

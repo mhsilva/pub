@@ -1,11 +1,13 @@
 package com.pub.pubcustomer.api.request;
 
+import java.io.Serializable;
+
 /**
  * Created by Fernando Santiago on 03/08/2016.
  */
 
 
-public class PubCallWaiterApi {
+public class PubCallWaiterApi implements Serializable {
 
     private String locationId;
     private String tableNumber;
@@ -24,6 +26,11 @@ public class PubCallWaiterApi {
 
     public void setTableNumber(String tableNumber) {
         this.tableNumber = tableNumber;
+    }
+
+
+    public PubCallWaiterApi() {
+
     }
 
 }

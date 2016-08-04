@@ -25,6 +25,7 @@ public class SplashActivity extends AppCompatActivity   {
 
         String permissons[] = new String[] {
                 Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.INTERNET,
         };
 
         boolean ok = PermissonUtils.validate(this, 0, permissons);
