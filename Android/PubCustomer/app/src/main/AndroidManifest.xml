@@ -26,9 +26,9 @@
 
         <activity android:name="com.pub.pubcustomer.MainActivity" />
 
-        <activity android:name="com.pub.pubcustomer.ui.PubCallWaiter" />
+        <activity android:name=".ui.PubCallWaiterUi" />
 
-        <service android:name=".rest.PubRestCallWaiterService"></service>
+        <service android:name=".rest.PubRestServiceCallWaiter"></service>
 
     </application>
 

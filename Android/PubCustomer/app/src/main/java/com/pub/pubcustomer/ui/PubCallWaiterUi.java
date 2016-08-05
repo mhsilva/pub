@@ -7,15 +7,15 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.pub.pubcustomer.R;
-import com.pub.pubcustomer.api.request.PubCallWaiterApi;
+import com.pub.pubcustomer.api.request.PubCallWaiter;
 import com.pub.pubcustomer.rest.PubCallWaiterRestHelper;
 
 /**
  * Created by Fernando Santiago on 03/08/2016.
  */
-public class PubCallWaiter extends AppCompatActivity {
+public class PubCallWaiterUi extends AppCompatActivity {
 
-    public static final String TAG ="PubCallWaiter";
+    public static final String TAG ="PubCallWaiterUi";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,9 +27,8 @@ public class PubCallWaiter extends AppCompatActivity {
         //displayTextView.setText(getIntent().getStringExtra("pubCallWaiter"));
     }
 
-
     public void callWaiterOnClick(View view) {
         Gson gson = new Gson();
-        PubCallWaiterRestHelper.callWaiter(this,gson.fromJson(getIntent().getStringExtra("pubCallWaiter"), PubCallWaiterApi.class));
+        PubCallWaiterRestHelper.callWaiter(this,gson.fromJson(getIntent().getStringExtra("pubCallWaiter"), PubCallWaiter.class));
     }
 }

@@ -5,11 +5,15 @@ package com.pub.pubcustomer.api.response;
  */
 import java.util.List;
 
-public class PubStatusApi {
-    private final long id;
-    private final List<String> content;
+public class PubStatus {
 
-    public PubStatusApi(long id, List<String> content) {
+    private  long id;
+    private List<String> content;
+
+    public PubStatus() {
+    }
+
+    public PubStatus(long id, List<String> content) {
         this.id = id;
         this.content = content;
     }
@@ -21,5 +25,4 @@ public class PubStatusApi {
     public List<String> getContent() {
         return content;
     }
-
 }

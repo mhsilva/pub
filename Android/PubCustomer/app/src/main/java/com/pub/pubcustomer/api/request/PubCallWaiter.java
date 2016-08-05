@@ -7,7 +7,7 @@ import java.io.Serializable;
  */
 
 
-public class PubCallWaiterApi implements Serializable {
+public class PubCallWaiter implements Serializable {
 
     private String locationId;
     private String tableNumber;
@@ -29,7 +29,7 @@ public class PubCallWaiterApi implements Serializable {
     }
 
 
-    public PubCallWaiterApi() {
+    public PubCallWaiter() {
 
     }
 

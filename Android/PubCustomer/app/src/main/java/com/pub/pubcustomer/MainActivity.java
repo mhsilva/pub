@@ -17,8 +17,8 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.location.places.PlaceLikelihood;
 import com.google.android.gms.location.places.PlaceLikelihoodBuffer;
 import com.google.android.gms.location.places.Places;
-import com.pub.pubcustomer.api.request.PubCallWaiterApi;
-import com.pub.pubcustomer.ui.PubCallWaiter;
+import com.pub.pubcustomer.api.request.PubCallWaiter;
+import com.pub.pubcustomer.ui.PubCallWaiterUi;
 import com.pub.pubcustomer.ui.PubCurrentPlaceAdapter;
 import com.pub.pubcustomer.ui.PubPlace;
 import com.pub.pubcustomer.utils.PubGsonUtils;
@@ -72,6 +72,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     pubPlaceCollection.add(new PubPlace(placeLikelihood.getPlace().getId().toString(),placeLikelihood.getPlace().getName().toString()));
                 }
 
+                //TODO Delete line below
+                pubPlaceCollection.add(new PubPlace("ChIJb4x_rlvPyJQRI-DvjnJ6-n8","Thomson Reuters"));
+
                 mListView = (ListView) findViewById(R.id.listView);
 
                if(pubPlaceCollection.size() == 0)
@@ -102,13 +105,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog,int which) {
 
-                        PubCallWaiterApi pubCallWaiter = new PubCallWaiterApi();
+                        PubCallWaiter pubCallWaiter = new PubCallWaiter();
                         pubCallWaiter.setLocationId(pubPlace.getLocationId());
                         pubCallWaiter.setTableNumber(input.getText().toString());
 
                         Toast.makeText(getApplicationContext(),"Location id" + pubCallWaiter.getLocationId() + "Table Number" + pubCallWaiter.getTableNumber() , Toast.LENGTH_SHORT).show();
 
-                        Intent intent = new Intent(MainActivity.this, PubCallWaiter.class);
+                        Intent intent = new Intent(MainActivity.this, PubCallWaiterUi.class);
                         intent.putExtra("pubCallWaiter", PubGsonUtils.objectToJson(pubCallWaiter) );
 
                         startActivity(intent);
