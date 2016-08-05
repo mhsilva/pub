@@ -1,14 +1,14 @@
 package com.pub.pubcustomer.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.pub.pubcustomer.R;
 import com.pub.pubcustomer.api.request.PubCallWaiter;
 import com.pub.pubcustomer.rest.PubCallWaiterRestHelper;
+import com.pub.pubcustomer.rest.PubRestServiceCallWaiter;
 
 /**
  * Created by Fernando Santiago on 03/08/2016.
@@ -22,13 +22,16 @@ public class PubCallWaiterUi extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.acitivity_pub_call_waiter);
-
-        TextView displayTextView =  (TextView)findViewById(R.id.textView2);
-        //displayTextView.setText(getIntent().getStringExtra("pubCallWaiter"));
     }
 
     public void callWaiterOnClick(View view) {
-        Gson gson = new Gson();
-        PubCallWaiterRestHelper.callWaiter(this,gson.fromJson(getIntent().getStringExtra("pubCallWaiter"), PubCallWaiter.class));
+        PubCallWaiterRestHelper.callWaiter(this,(PubCallWaiter) getIntent().getExtras().getSerializable("pubCallWaiter"));
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        stopService(new Intent(this, PubRestServiceCallWaiter.class));
+    }
+
 }

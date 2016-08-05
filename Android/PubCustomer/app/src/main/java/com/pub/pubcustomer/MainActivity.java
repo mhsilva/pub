@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
@@ -21,7 +20,6 @@ import com.pub.pubcustomer.api.request.PubCallWaiter;
 import com.pub.pubcustomer.ui.PubCallWaiterUi;
 import com.pub.pubcustomer.ui.PubCurrentPlaceAdapter;
 import com.pub.pubcustomer.ui.PubPlace;
-import com.pub.pubcustomer.utils.PubGsonUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -109,10 +107,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                         pubCallWaiter.setLocationId(pubPlace.getLocationId());
                         pubCallWaiter.setTableNumber(input.getText().toString());
 
-                        Toast.makeText(getApplicationContext(),"Location id" + pubCallWaiter.getLocationId() + "Table Number" + pubCallWaiter.getTableNumber() , Toast.LENGTH_SHORT).show();
-
                         Intent intent = new Intent(MainActivity.this, PubCallWaiterUi.class);
-                        intent.putExtra("pubCallWaiter", PubGsonUtils.objectToJson(pubCallWaiter) );
+                        intent.putExtra("pubCallWaiter", pubCallWaiter );
 
                         startActivity(intent);
                         finish();

@@ -19,26 +19,30 @@ public class PubCallWaiterRequestTask  extends AsyncTask<Void, Void, PubStatus> 
     private static final String TAG = "PubWaiterRequestTask";
 
     private Context mContext;
-    private PubCallWaiter pubCallWaiterApiReq;
+    private PubCallWaiter pubCallWaiter;
+    private PubStatus pubStatus;
 
     public PubCallWaiterRequestTask(Context mContext, PubCallWaiter pubCallWaiterApi) {
         this.mContext = mContext;
-        this.pubCallWaiterApiReq = pubCallWaiterApi;
+        this.pubCallWaiter = pubCallWaiterApi;
     }
 
     @Override
     protected PubStatus doInBackground(Void... voids) {
 
-        PubCallWaiter pubCallWaiter = null;
-        PubStatus pubStatus = null;
-
         try {
             RestTemplate restTemplate = new RestTemplate();
             restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-            pubStatus = restTemplate.postForObject(PubConstants.BASE_URL + PubConstants.REST_CALL_WAITER_METHOD, pubCallWaiterApiReq, PubStatus.class);
+            pubStatus = restTemplate.postForObject(PubConstants.BASE_URL + PubConstants.REST_CALL_WAITER_METHOD, this.pubCallWaiter, PubStatus.class);
         } catch (Throwable e) {
             Log.e(TAG, "doInBackground: Error! " + e.getMessage(), e);
         }
-        return pubStatus;
+        return null;
     }
+
+
+ /*   @Override
+    protected void onPostExecute(PubStatus status) {
+      super.onPostExecute(status);
+    }*/
 }
