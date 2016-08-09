@@ -1,6 +1,5 @@
 package com.pub.pubcustomer.rest;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -46,7 +45,8 @@ public class PubCallWaiterRequestTask  extends AsyncTask<Void, Void, PubStatus> 
     protected void onPostExecute(PubStatus pubStatus) {
       //Send result to Activity PubCallWaiterActivity
       Intent intent = new Intent(PubConstants.CALL_WAITER_SERVICE_NOTIFICATION);
-      intent.putExtra(PubConstants.RESULT, Activity.RESULT_OK);
+      Boolean result = pubStatus.getContent().size() > 0? Boolean.TRUE :Boolean.FALSE;
+      intent.putExtra(PubConstants.RESULT, result);
       intent.putExtra(PubConstants.PUB_STATUS, pubStatus);
       mContext.sendBroadcast(intent);
     }

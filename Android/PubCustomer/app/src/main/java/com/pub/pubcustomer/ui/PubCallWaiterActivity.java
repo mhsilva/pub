@@ -7,7 +7,8 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.pub.pubcustomer.R;
@@ -22,8 +23,7 @@ import com.pub.pubcustomer.utils.PubConstants;
  */
 public class PubCallWaiterActivity extends AppCompatActivity {
 
-
-    private TextView textView;
+   private ListView mListView;
 
     private BroadcastReceiver receiver = new BroadcastReceiver() {
 
@@ -34,22 +34,15 @@ public class PubCallWaiterActivity extends AppCompatActivity {
 
                 PubStatus pubStatus = (PubStatus) bundle.getSerializable(PubConstants.PUB_STATUS);
 
-                //TODO Change for List Adapter extends BaseAdapter
-                StringBuilder stringBuilder = new StringBuilder();
-
-                for(String item :pubStatus.getContent() ){
-                    stringBuilder.append(item).append("\n");
-                }
-
-                if (bundle.getInt(PubConstants.RESULT) == RESULT_OK) {
+                if (bundle.getBoolean(PubConstants.RESULT)) {
                     Toast.makeText(PubCallWaiterActivity.this,
                             "Call Waiter successfully " ,
                             Toast.LENGTH_LONG).show();
-                    textView.setText(stringBuilder);
+                    mListView.setAdapter(new ArrayAdapter<String>(getBaseContext(), android.R.layout.simple_list_item_1, android.R.id.text1,pubStatus.getContent()));
                 } else {
                     Toast.makeText(PubCallWaiterActivity.this, "Call Waiter failed",
                             Toast.LENGTH_LONG).show();
-                    textView.setText("Call Waiter failed try again");
+                    mListView.setAdapter(new ArrayAdapter<String>(getBaseContext(), android.R.layout.simple_list_item_1, android.R.id.text1,new String[] {"Call Waiter failed, Try Again"}));
                 }
             }
         }
@@ -60,8 +53,8 @@ public class PubCallWaiterActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.acitivity_pub_call_waiter);
-        textView = (TextView) findViewById(R.id.textView2);
-        setTitle( getIntent().getStringExtra("placeName"));
+        mListView = (ListView) findViewById(R.id.listView2);
+        setTitle(getIntent().getStringExtra("placeName"));
     }
 
     public void callWaiterOnClick(View view) {

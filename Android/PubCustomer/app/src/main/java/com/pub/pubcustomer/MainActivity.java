@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
@@ -17,9 +18,11 @@ import com.google.android.gms.location.places.PlaceLikelihood;
 import com.google.android.gms.location.places.PlaceLikelihoodBuffer;
 import com.google.android.gms.location.places.Places;
 import com.pub.pubcustomer.entity.PubCallWaiter;
+import com.pub.pubcustomer.entity.PubPlace;
 import com.pub.pubcustomer.ui.PubCallWaiterActivity;
 import com.pub.pubcustomer.ui.PubCurrentPlaceAdapter;
-import com.pub.pubcustomer.entity.PubPlace;
+
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,14 +70,14 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             public void onResult(PlaceLikelihoodBuffer likelyPlaces) {
 
                 //TODO Delete line below
-                pubPlaceCollection.add(new PubPlace("ChIJb4x_rlvPyJQRI-DvjnJ6-n8","Thomson Reuters"));
+                pubPlaceCollection.add(new PubPlace("ChIJb4x_rlvPyJQRI-DvjnJ6-n8", "Thomson Reuters"));
 
                 for (PlaceLikelihood placeLikelihood : likelyPlaces) {
-                    pubPlaceCollection.add(new PubPlace(placeLikelihood.getPlace().getId().toString(),placeLikelihood.getPlace().getName().toString()));
+                    pubPlaceCollection.add(new PubPlace(placeLikelihood.getPlace().getId().toString(), placeLikelihood.getPlace().getName().toString()));
                 }
 
-               if(pubPlaceCollection.size() == 0)
-                   pubPlaceCollection.add(new PubPlace("0","No places found"));
+                if (pubPlaceCollection.size() == 0)
+                    pubPlaceCollection.add(new PubPlace("0", "No places found"));
 
                 mListView = (ListView) findViewById(R.id.listView);
                 mListView.setAdapter(new PubCurrentPlaceAdapter(MainActivity.this, pubPlaceCollection));
@@ -88,31 +91,37 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int idx, long l) {
 
-        final PubPlace  pubPlace = this.pubPlaceCollection.get(idx);
+        final PubPlace pubPlace = this.pubPlaceCollection.get(idx);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         builder.setMessage("Type your table")
-                .setTitle("Are you at " + pubPlace.getPlaceName());
+                .setTitle("Are you at ".concat(pubPlace.getPlaceName()).concat(" ?"));
 
-        final EditText input = new EditText(this);
-        builder.setView(input);
+        final EditText tableNumber = new EditText(this);
+        builder.setView(tableNumber);
 
         builder.setPositiveButton(R.string.yes,
                 new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog,int which) {
+                    public void onClick(DialogInterface dialog, int which) {
 
-                        PubCallWaiter pubCallWaiter = new PubCallWaiter();
-                        pubCallWaiter.setLocationId(pubPlace.getLocationId());
-                        pubCallWaiter.setTableNumber(input.getText().toString());
+                        if (StringUtils.hasText(tableNumber.getText().toString())) {
 
-                        Intent intent = new Intent(MainActivity.this, PubCallWaiterActivity.class);
-                        intent.putExtra("pubCallWaiter", pubCallWaiter );
-                        intent.putExtra("placeName",pubPlace.getPlaceName());
+                            PubCallWaiter pubCallWaiter = new PubCallWaiter();
+                            pubCallWaiter.setLocationId(pubPlace.getLocationId());
+                            pubCallWaiter.setTableNumber(tableNumber.getText().toString());
 
-                        startActivity(intent);
-                        finish();
+                            Intent intent = new Intent(MainActivity.this, PubCallWaiterActivity.class);
+                            intent.putExtra("pubCallWaiter", pubCallWaiter);
+                            intent.putExtra("placeName", pubPlace.getPlaceName());
 
+                            startActivity(intent);
+                            finish();
+
+                        } else {
+                            Toast.makeText(getApplicationContext(),
+                                    "Table number is required", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
 

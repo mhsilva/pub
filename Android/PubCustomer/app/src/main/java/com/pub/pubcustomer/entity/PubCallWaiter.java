@@ -27,10 +27,4 @@ public class PubCallWaiter implements Serializable {
     public void setTableNumber(String tableNumber) {
         this.tableNumber = tableNumber;
     }
-
-
-    public PubCallWaiter() {
-
-}
-
 }
