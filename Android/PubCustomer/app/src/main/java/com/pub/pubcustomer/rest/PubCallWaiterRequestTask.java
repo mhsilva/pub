@@ -6,8 +6,8 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.pub.pubcustomer.api.request.PubCallWaiter;
-import com.pub.pubcustomer.api.response.PubStatus;
+import com.pub.pubcustomer.entity.PubCallWaiter;
+import com.pub.pubcustomer.entity.PubStatus;
 import com.pub.pubcustomer.utils.PubConstants;
 
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -44,7 +44,7 @@ public class PubCallWaiterRequestTask  extends AsyncTask<Void, Void, PubStatus> 
 
   @Override
     protected void onPostExecute(PubStatus pubStatus) {
-      //Send result to Activity PubCallWaiterUi
+      //Send result to Activity PubCallWaiterAcitivity
       Intent intent = new Intent(PubConstants.CALL_WAITER_SERVICE_NOTIFICATION);
       intent.putExtra(PubConstants.RESULT, Activity.RESULT_OK);
       intent.putExtra(PubConstants.PUB_STATUS, pubStatus);

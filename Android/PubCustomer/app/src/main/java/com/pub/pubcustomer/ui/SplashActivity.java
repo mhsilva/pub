@@ -7,8 +7,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import com.pub.pubcustomer.MainActivity;
-import com.pub.pubcustomer.utils.AlertUtils;
-import com.pub.pubcustomer.utils.PermissonUtils;
+import com.pub.pubcustomer.utils.PubAlertUtils;
+import com.pub.pubcustomer.utils.PubPermissonUtils;
 
 import com.pub.pubcustomer.R;
 
@@ -28,7 +28,7 @@ public class SplashActivity extends AppCompatActivity   {
                 Manifest.permission.INTERNET,
         };
 
-        boolean ok = PermissonUtils.validate(this, 0, permissons);
+        boolean ok = PubPermissonUtils.validate(this, 0, permissons);
 
         if(ok){
             startActivity(new Intent(this, MainActivity.class));
@@ -40,7 +40,7 @@ public class SplashActivity extends AppCompatActivity   {
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         for (int result : grantResults) {
             if (result == PackageManager.PERMISSION_DENIED) {
-                AlertUtils.alert(this, R.string.app_name, R.string.msg_alerta_permissao,R.string.ok, new Runnable() {
+                PubAlertUtils.alert(this, R.string.app_name, R.string.msg_alerta_permissao,R.string.ok, new Runnable() {
                     @Override
                     public void run() {
                         finish();

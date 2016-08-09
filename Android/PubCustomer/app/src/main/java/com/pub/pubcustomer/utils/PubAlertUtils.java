@@ -9,7 +9,7 @@ import android.content.DialogInterface;
  * Created by Fernando Santiago on 01/08/2016.
  */
 
-public class AlertUtils {
+public class PubAlertUtils {
 
     public static void alert(Activity activity, String title, String message) {
         alert(activity, title, message, 0, 0);

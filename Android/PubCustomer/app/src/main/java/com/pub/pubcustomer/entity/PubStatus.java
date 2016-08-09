@@ -1,4 +1,4 @@
-package com.pub.pubcustomer.api.response;
+package com.pub.pubcustomer.entity;
 
 /**
  * Created by Fernando Santiago on 03/08/2016.

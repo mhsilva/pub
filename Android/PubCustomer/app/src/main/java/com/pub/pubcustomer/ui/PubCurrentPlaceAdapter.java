@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.pub.pubcustomer.R;
+import com.pub.pubcustomer.entity.PubPlace;
 
 import java.util.List;
 

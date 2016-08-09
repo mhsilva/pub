@@ -1,4 +1,4 @@
-package com.pub.pubcustomer.api.request;
+package com.pub.pubcustomer.entity;
 
 import java.io.Serializable;
 
@@ -31,6 +31,6 @@ public class PubCallWaiter implements Serializable {
 
     public PubCallWaiter() {
 
-    }
+}
 
 }

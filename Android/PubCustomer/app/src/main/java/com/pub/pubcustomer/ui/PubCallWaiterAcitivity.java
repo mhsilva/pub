@@ -11,16 +11,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.pub.pubcustomer.R;
-import com.pub.pubcustomer.api.request.PubCallWaiter;
-import com.pub.pubcustomer.api.response.PubStatus;
+import com.pub.pubcustomer.entity.PubCallWaiter;
+import com.pub.pubcustomer.entity.PubStatus;
 import com.pub.pubcustomer.rest.PubCallWaiterRestHelper;
-import com.pub.pubcustomer.rest.PubRestCallWaiterService;
+import com.pub.pubcustomer.rest.PubCallWaiterRestService;
 import com.pub.pubcustomer.utils.PubConstants;
 
 /**
  * Created by Fernando Santiago on 03/08/2016.
  */
-public class PubCallWaiterUi extends AppCompatActivity {
+public class PubCallWaiterAcitivity extends AppCompatActivity {
 
 
     private TextView textView;
@@ -42,12 +42,12 @@ public class PubCallWaiterUi extends AppCompatActivity {
                 }
 
                 if (bundle.getInt(PubConstants.RESULT) == RESULT_OK) {
-                    Toast.makeText(PubCallWaiterUi.this,
-                            "Call Waiter successfully: " ,
+                    Toast.makeText(PubCallWaiterAcitivity.this,
+                            "Call Waiter successfully " ,
                             Toast.LENGTH_LONG).show();
                     textView.setText(stringBuilder);
                 } else {
-                    Toast.makeText(PubCallWaiterUi.this, "Call Waiter failed",
+                    Toast.makeText(PubCallWaiterAcitivity.this, "Call Waiter failed",
                             Toast.LENGTH_LONG).show();
                     textView.setText("Call Waiter failed try again");
                 }
@@ -70,7 +70,7 @@ public class PubCallWaiterUi extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        stopService(new Intent(this, PubRestCallWaiterService.class));
+        stopService(new Intent(this, PubCallWaiterRestService.class));
     }
 
     @Override

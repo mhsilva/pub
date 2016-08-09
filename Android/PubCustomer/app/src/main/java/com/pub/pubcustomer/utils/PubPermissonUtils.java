@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Created by Fernando Santiago on 01/08/2016.
  */
-public class PermissonUtils {
+public class PubPermissonUtils {
 
     public static boolean validate(Activity activity, int requestCode, String... permissions) {
 

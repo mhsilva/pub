@@ -1,4 +1,4 @@
-package com.pub.pubcustomer.ui;
+package com.pub.pubcustomer.entity;
 
 /**
  * Created by Fernando Santiago on 02/08/2016.

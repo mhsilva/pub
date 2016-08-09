@@ -6,13 +6,13 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
 
-import com.pub.pubcustomer.api.request.PubCallWaiter;
+import com.pub.pubcustomer.entity.PubCallWaiter;
 import com.pub.pubcustomer.utils.PubConstants;
 
 /**
  * Created by Fernando Santiago on 04/08/2016.
  */
-public class PubRestCallWaiterService extends Service {
+public class PubCallWaiterRestService extends Service {
 
     public static final String TAG = "PubRestCallWaiterServic";
     private final IBinder mBinder = new MyBinder();
@@ -35,8 +35,8 @@ public class PubRestCallWaiterService extends Service {
     }
 
     public class MyBinder extends Binder {
-        PubRestCallWaiterService getService() {
-            return PubRestCallWaiterService.this;
+        PubCallWaiterRestService getService() {
+            return PubCallWaiterRestService.this;
         }
     }
 }
