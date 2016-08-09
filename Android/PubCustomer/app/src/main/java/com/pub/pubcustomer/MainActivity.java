@@ -17,7 +17,7 @@ import com.google.android.gms.location.places.PlaceLikelihood;
 import com.google.android.gms.location.places.PlaceLikelihoodBuffer;
 import com.google.android.gms.location.places.Places;
 import com.pub.pubcustomer.entity.PubCallWaiter;
-import com.pub.pubcustomer.ui.PubCallWaiterAcitivity;
+import com.pub.pubcustomer.ui.PubCallWaiterActivity;
 import com.pub.pubcustomer.ui.PubCurrentPlaceAdapter;
 import com.pub.pubcustomer.entity.PubPlace;
 
@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                         pubCallWaiter.setLocationId(pubPlace.getLocationId());
                         pubCallWaiter.setTableNumber(input.getText().toString());
 
-                        Intent intent = new Intent(MainActivity.this, PubCallWaiterAcitivity.class);
+                        Intent intent = new Intent(MainActivity.this, PubCallWaiterActivity.class);
                         intent.putExtra("pubCallWaiter", pubCallWaiter );
 
                         startActivity(intent);

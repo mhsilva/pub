@@ -20,7 +20,7 @@ import com.pub.pubcustomer.utils.PubConstants;
 /**
  * Created by Fernando Santiago on 03/08/2016.
  */
-public class PubCallWaiterAcitivity extends AppCompatActivity {
+public class PubCallWaiterActivity extends AppCompatActivity {
 
 
     private TextView textView;
@@ -42,12 +42,12 @@ public class PubCallWaiterAcitivity extends AppCompatActivity {
                 }
 
                 if (bundle.getInt(PubConstants.RESULT) == RESULT_OK) {
-                    Toast.makeText(PubCallWaiterAcitivity.this,
+                    Toast.makeText(PubCallWaiterActivity.this,
                             "Call Waiter successfully " ,
                             Toast.LENGTH_LONG).show();
                     textView.setText(stringBuilder);
                 } else {
-                    Toast.makeText(PubCallWaiterAcitivity.this, "Call Waiter failed",
+                    Toast.makeText(PubCallWaiterActivity.this, "Call Waiter failed",
                             Toast.LENGTH_LONG).show();
                     textView.setText("Call Waiter failed try again");
                 }

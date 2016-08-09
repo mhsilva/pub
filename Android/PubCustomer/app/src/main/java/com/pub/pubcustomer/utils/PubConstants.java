@@ -6,7 +6,7 @@ package com.pub.pubcustomer.utils;
 public class PubConstants {
 
     public static final String BASE_URL = "http://pubbackend.herokuapp.com/";
-    public static final String PUB_CALL_WAITER = "PubCallWaiterAcitivity";
+    public static final String PUB_CALL_WAITER = "PubCallWaiterActivity";
     public static final String REST_CALL_WAITER_METHOD = "callwaiter";
     public static final String PUB_STATUS = "PubStatus";
     public static final String RESULT = "result";

@@ -44,7 +44,7 @@ public class PubCallWaiterRequestTask  extends AsyncTask<Void, Void, PubStatus> 
 
   @Override
     protected void onPostExecute(PubStatus pubStatus) {
-      //Send result to Activity PubCallWaiterAcitivity
+      //Send result to Activity PubCallWaiterActivity
       Intent intent = new Intent(PubConstants.CALL_WAITER_SERVICE_NOTIFICATION);
       intent.putExtra(PubConstants.RESULT, Activity.RESULT_OK);
       intent.putExtra(PubConstants.PUB_STATUS, pubStatus);
