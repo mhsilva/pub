@@ -61,6 +61,7 @@ public class PubCallWaiterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.acitivity_pub_call_waiter);
         textView = (TextView) findViewById(R.id.textView2);
+        setTitle( getIntent().getStringExtra("placeName"));
     }
 
     public void callWaiterOnClick(View view) {

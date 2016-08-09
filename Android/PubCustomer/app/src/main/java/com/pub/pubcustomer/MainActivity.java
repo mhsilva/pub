@@ -108,6 +108,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
                         Intent intent = new Intent(MainActivity.this, PubCallWaiterActivity.class);
                         intent.putExtra("pubCallWaiter", pubCallWaiter );
+                        intent.putExtra("placeName",pubPlace.getPlaceName());
 
                         startActivity(intent);
                         finish();
