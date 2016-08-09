@@ -14,7 +14,7 @@ public class PubCallWaiterRestHelper {
 
     public static void callWaiter(Context context, PubCallWaiter pubCallWaiterApi) {
         Log.d("TAG", "Sending token.");
-        Intent i = new Intent(context, PubRestServiceCallWaiter.class);
+        Intent i = new Intent(context, PubRestCallWaiterService.class);
         i.setAction("start");
         i.putExtra(PubConstants.PUB_CALL_WAITER, pubCallWaiterApi);
         context.startService(i);

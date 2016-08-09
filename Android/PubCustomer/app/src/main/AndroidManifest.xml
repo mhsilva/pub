@@ -28,7 +28,7 @@
 
         <activity android:name=".ui.PubCallWaiterUi" />
 
-        <service android:name=".rest.PubRestServiceCallWaiter"></service>
+        <service android:name=".rest.PubRestCallWaiterService"></service>
 
     </application>
 

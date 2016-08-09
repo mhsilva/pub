@@ -3,9 +3,10 @@ package com.pub.pubcustomer.api.response;
 /**
  * Created by Fernando Santiago on 03/08/2016.
  */
+import java.io.Serializable;
 import java.util.List;
 
-public class PubStatus {
+public class PubStatus implements Serializable {
 
     private  long id;
     private List<String> content;

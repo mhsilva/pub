@@ -66,18 +66,17 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             @Override
             public void onResult(PlaceLikelihoodBuffer likelyPlaces) {
 
+                //TODO Delete line below
+                pubPlaceCollection.add(new PubPlace("ChIJb4x_rlvPyJQRI-DvjnJ6-n8","Thomson Reuters"));
+
                 for (PlaceLikelihood placeLikelihood : likelyPlaces) {
                     pubPlaceCollection.add(new PubPlace(placeLikelihood.getPlace().getId().toString(),placeLikelihood.getPlace().getName().toString()));
                 }
 
-                //TODO Delete line below
-                pubPlaceCollection.add(new PubPlace("ChIJb4x_rlvPyJQRI-DvjnJ6-n8","Thomson Reuters"));
-
-                mListView = (ListView) findViewById(R.id.listView);
-
                if(pubPlaceCollection.size() == 0)
                    pubPlaceCollection.add(new PubPlace("0","No places found"));
 
+                mListView = (ListView) findViewById(R.id.listView);
                 mListView.setAdapter(new PubCurrentPlaceAdapter(MainActivity.this, pubPlaceCollection));
                 mListView.setOnItemClickListener(MainActivity.this);
 

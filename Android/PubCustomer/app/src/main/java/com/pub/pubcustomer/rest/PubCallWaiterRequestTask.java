@@ -1,6 +1,8 @@
 package com.pub.pubcustomer.rest;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -37,12 +39,15 @@ public class PubCallWaiterRequestTask  extends AsyncTask<Void, Void, PubStatus> 
         } catch (Throwable e) {
             Log.e(TAG, "doInBackground: Error! " + e.getMessage(), e);
         }
-        return null;
+        return pubStatus;
     }
 
-
- /*   @Override
-    protected void onPostExecute(PubStatus status) {
-      super.onPostExecute(status);
-    }*/
+  @Override
+    protected void onPostExecute(PubStatus pubStatus) {
+      //Send result to Activity PubCallWaiterUi
+      Intent intent = new Intent(PubConstants.CALL_WAITER_SERVICE_NOTIFICATION);
+      intent.putExtra(PubConstants.RESULT, Activity.RESULT_OK);
+      intent.putExtra(PubConstants.PUB_STATUS, pubStatus);
+      mContext.sendBroadcast(intent);
+    }
 }
