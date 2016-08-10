@@ -49,6 +49,20 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 .build();
 
         getGooglePlacesApi(mGoogleApiClient);
+
+        mListView = (ListView)findViewById(R.id.listView);
+        mListView.setLongClickable(true);
+        mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+
+            @Override
+            public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
+                                           int arg2, long arg3) {
+                // TODO Auto-generated method stub
+                final PubPlace pubPlace = pubPlaceCollection.get(arg2);
+                Log.w("HHHHHHHHHHHHHH", pubPlace.getPlace().getId());
+                return true;
+            }
+        });
     }
 
     @Override
@@ -73,20 +87,20 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             public void onResult(PlaceLikelihoodBuffer likelyPlaces) {
 
                 //TODO Delete line below
-                pubPlaceCollection.add(new PubPlace("ChIJb4x_rlvPyJQRI-DvjnJ6-n8", "Thomson Reuters"));
+                //pubPlaceCollection.add(new PubPlace("ChIJb4x_rlvPyJQRI-DvjnJ6-n8", "Thomson Reuters"));
 
                 for (PlaceLikelihood placeLikelihood : likelyPlaces) {
 
                     //Only present estabilishemtns Pub (Cafe, Bar, Cassino etc)
-                    if(PlaceFilter.contaisPlaceType(placeLikelihood.getPlace().getPlaceTypes())){
-                        pubPlaceCollection.add(new PubPlace(placeLikelihood.getPlace().getId().toString(), placeLikelihood.getPlace().getName().toString()));
+                    if (PlaceFilter.contaisPlaceType(placeLikelihood.getPlace().getPlaceTypes())) {
+                        pubPlaceCollection.add(new PubPlace(placeLikelihood.getPlace().freeze(), placeLikelihood.getLikelihood()));
                     }
 
                     Log.i(TAG, String.format("Place '%s' with " + "likelihood: %g" + " with Place Types %s'", placeLikelihood.getPlace().getName(), placeLikelihood.getLikelihood(), placeLikelihood.getPlace().getPlaceTypes().toString()));
                 }
 
-                if (pubPlaceCollection.size() == 0)
-                    pubPlaceCollection.add(new PubPlace("0", "No places found"));
+               /* if (pubPlaceCollection.size() == 0)
+                    pubPlaceCollection.add(new PubPlace("0", "No places found"));*/
 
                 mListView = (ListView) findViewById(R.id.listView);
                 mListView.setAdapter(new PubCurrentPlaceAdapter(MainActivity.this, pubPlaceCollection));
@@ -105,7 +119,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         builder.setMessage("Type your table")
-                .setTitle("Are you at ".concat(pubPlace.getPlaceName()).concat(" ?"));
+                .setTitle("Are you at ".concat(pubPlace.getPlace().getName().toString().concat(" ?")));
 
         final EditText tableNumber = new EditText(this);
         builder.setView(tableNumber);
@@ -117,12 +131,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                         if (StringUtils.hasText(tableNumber.getText().toString())) {
 
                             PubCallWaiter pubCallWaiter = new PubCallWaiter();
-                            pubCallWaiter.setLocationId(pubPlace.getLocationId());
+                            pubCallWaiter.setLocationId(pubPlace.getPlace().getId());
                             pubCallWaiter.setTableNumber(tableNumber.getText().toString());
 
                             Intent intent = new Intent(MainActivity.this, PubCallWaiterActivity.class);
                             intent.putExtra("pubCallWaiter", pubCallWaiter);
-                            intent.putExtra("placeName", pubPlace.getPlaceName());
+                            intent.putExtra("placeName", pubPlace.getPlace().getName());
 
                             startActivity(intent);
                             finish();

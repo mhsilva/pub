@@ -51,8 +51,8 @@ public class PubCurrentPlaceAdapter  extends BaseAdapter {
 
         PubPlace pubCallWaiter = pubPlaceCollection.get(position);
 
-        tvLocationId.setText(pubCallWaiter.getLocationId());
-        tvTableNumber.setText(pubCallWaiter.getPlaceName());
+        tvLocationId.setText(pubCallWaiter.getPlace().getId());
+        tvTableNumber.setText(pubCallWaiter.getPlace().getName().toString());
 
         return view;
     }

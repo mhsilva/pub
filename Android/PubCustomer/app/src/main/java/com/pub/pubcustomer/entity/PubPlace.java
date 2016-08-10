@@ -1,34 +1,49 @@
 package com.pub.pubcustomer.entity;
 
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.PlaceLikelihood;
+
 /**
  * Created by Fernando Santiago on 02/08/2016.
  */
-public class PubPlace {
+public class PubPlace implements PlaceLikelihood {
 
-    private String locationId;
-    private String placeName;
-
-    public String getPlaceName() {
-        return placeName;
-    }
-
-    public void setPlaceName(String placeName) {
-        this.placeName = placeName;
-    }
+    private Place place;
+    private float likelihood;
 
     public PubPlace() {
     }
 
-    public PubPlace(String locationId, String placeName) {
-        this.locationId = locationId;
-        this.placeName = placeName;
+    public PubPlace(Place place, float likelihood) {
+        this.place = place;
+        this.likelihood = likelihood;
     }
 
-    public String getLocationId() {
-        return locationId;
+    public void setPlace(Place place) {
+        this.place = place;
     }
 
-    public void setLocationId(String locationId) {
-        this.locationId = locationId;
+    public void setLikelihood(float likelihood) {
+        this.likelihood = likelihood;
+    }
+
+    @Override
+    public PlaceLikelihood freeze() {
+        return null;
+    }
+
+    @Override
+    public boolean isDataValid() {
+        return false;
+    }
+
+    @Override
+    public float getLikelihood() {
+        return likelihood;
+    }
+
+    @Override
+    public Place getPlace() {
+        return place;
     }
 }
