@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -19,6 +20,7 @@ import com.google.android.gms.location.places.PlaceLikelihoodBuffer;
 import com.google.android.gms.location.places.Places;
 import com.pub.pubcustomer.entity.PubCallWaiter;
 import com.pub.pubcustomer.entity.PubPlace;
+import com.pub.pubcustomer.places.PlaceFilter;
 import com.pub.pubcustomer.ui.PubCallWaiterActivity;
 import com.pub.pubcustomer.ui.PubCurrentPlaceAdapter;
 
@@ -31,7 +33,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     private GoogleApiClient mGoogleApiClient;
     private ListView mListView;
-    List<PubPlace> pubPlaceCollection = new ArrayList<>();
+    private List<PubPlace> pubPlaceCollection = new ArrayList<>();
+    private static final String TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +76,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 pubPlaceCollection.add(new PubPlace("ChIJb4x_rlvPyJQRI-DvjnJ6-n8", "Thomson Reuters"));
 
                 for (PlaceLikelihood placeLikelihood : likelyPlaces) {
-                    pubPlaceCollection.add(new PubPlace(placeLikelihood.getPlace().getId().toString(), placeLikelihood.getPlace().getName().toString()));
+
+                    //Only present estabilishemtns Pub (Cafe, Bar, Cassino etc)
+                    if(PlaceFilter.contaisPlaceType(placeLikelihood.getPlace().getPlaceTypes())){
+                        pubPlaceCollection.add(new PubPlace(placeLikelihood.getPlace().getId().toString(), placeLikelihood.getPlace().getName().toString()));
+                    }
+
+                    Log.i(TAG, String.format("Place '%s' with " + "likelihood: %g" + " with Place Types %s'", placeLikelihood.getPlace().getName(), placeLikelihood.getLikelihood(), placeLikelihood.getPlace().getPlaceTypes().toString()));
                 }
 
                 if (pubPlaceCollection.size() == 0)
