@@ -51,16 +51,23 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         getGooglePlacesApi(mGoogleApiClient);
 
-        mListView = (ListView)findViewById(R.id.listView);
+        mListView = (ListView) findViewById(R.id.listView);
         mListView.setLongClickable(true);
         mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 
             @Override
             public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
                                            int arg2, long arg3) {
-                // TODO Auto-generated method stub
+
                 final PubPlaceLikelihood pubPlace = pubPlaceCollection.get(arg2);
-                Log.w("HHHHHHHHHHHHHH", pubPlace.getPlace().getId());
+
+                // Context context = getApplicationContext();
+                StringBuilder sb = new StringBuilder();
+                sb.append(pubPlace.getPlace().getAddress()).append("\n").
+                        append(pubPlace.getPlace().getPhoneNumber());
+                Toast toast = Toast.makeText(MainActivity.this, sb, Toast.LENGTH_LONG);
+                toast.show();
+
                 return true;
             }
         });
@@ -88,7 +95,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             public void onResult(PlaceLikelihoodBuffer likelyPlaces) {
 
                 //TODO Delete line below
-                pubPlaceCollection.add(new PubPlaceLikelihood(new PubPlace("ChIJb4x_rlvPyJQRI-DvjnJ6-n8","Thomson Reuters"), 1));
+                pubPlaceCollection.add(new PubPlaceLikelihood(new PubPlace("ChIJb4x_rlvPyJQRI-DvjnJ6-n8", "Thomson Reuters"), 1));
 
                 for (PlaceLikelihood placeLikelihood : likelyPlaces) {
 
@@ -100,8 +107,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     Log.i(TAG, String.format("Place '%s' with " + "likelihood: %g" + " with Place Types %s'", placeLikelihood.getPlace().getName(), placeLikelihood.getLikelihood(), placeLikelihood.getPlace().getPlaceTypes().toString()));
                 }
 
-               if (pubPlaceCollection.size() == 0)
-                pubPlaceCollection.add(new PubPlaceLikelihood(new PubPlace("0","No Places Found around"), 0));
+                if (pubPlaceCollection.size() == 0)
+                    pubPlaceCollection.add(new PubPlaceLikelihood(new PubPlace("0", "No Places Found around"), 0));
 
                 mListView = (ListView) findViewById(R.id.listView);
                 mListView.setAdapter(new PubCurrentPlaceAdapter(MainActivity.this, pubPlaceCollection));
