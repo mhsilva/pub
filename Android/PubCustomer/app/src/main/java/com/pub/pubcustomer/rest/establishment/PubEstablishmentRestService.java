@@ -1,4 +1,4 @@
-package com.pub.pubcustomer.rest;
+package com.pub.pubcustomer.rest.establishment;
 
 import android.app.Service;
 import android.content.Intent;
@@ -6,15 +6,14 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
 
-import com.pub.pubcustomer.entity.PubCallWaiter;
 import com.pub.pubcustomer.utils.PubConstants;
 
 /**
- * Created by Fernando Santiago on 04/08/2016.
+ * Created by Fernando Santiago on 11/08/2016.
  */
-public class PubCallWaiterRestService extends Service {
+public class PubEstablishmentRestService extends Service {
 
-    public static final String TAG = "PubRestCallWaiterServic";
+    public static final String TAG = PubEstablishmentRestService.class.getSimpleName();
     private final IBinder mBinder = new MyBinder();
 
     @Override
@@ -26,17 +25,16 @@ public class PubCallWaiterRestService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
 
         Log.d(TAG, "onStartCommand: Start rest Service.");
-        PubCallWaiter pubCallWaiterApi = (PubCallWaiter) intent.getExtras().getSerializable(PubConstants.PUB_CALL_WAITER);
-        PubCallWaiterRequestTask pubCallWaiterRequestTask = new PubCallWaiterRequestTask(getApplicationContext(), pubCallWaiterApi);
-        pubCallWaiterRequestTask.execute();
+        PubEstablishmentRequestTask pubEstablishmentRequestTask = new PubEstablishmentRequestTask(getApplicationContext(), intent.getExtras().getString(PubConstants.LOCATION_ID));
+        pubEstablishmentRequestTask.execute();
         Log.d(TAG, "onStartCommand: rest Service finish.");
 
         return Service.START_NOT_STICKY;
     }
 
     public class MyBinder extends Binder {
-        PubCallWaiterRestService getService() {
-            return PubCallWaiterRestService.this;
+        PubEstablishmentRestService getService() {
+            return PubEstablishmentRestService.this;
         }
     }
 }

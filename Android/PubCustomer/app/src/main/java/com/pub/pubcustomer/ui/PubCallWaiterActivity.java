@@ -14,8 +14,8 @@ import android.widget.Toast;
 import com.pub.pubcustomer.R;
 import com.pub.pubcustomer.entity.PubCallWaiter;
 import com.pub.pubcustomer.entity.PubStatus;
-import com.pub.pubcustomer.rest.PubCallWaiterRestHelper;
-import com.pub.pubcustomer.rest.PubCallWaiterRestService;
+import com.pub.pubcustomer.rest.callwaiter.PubCallWaiterRestHelper;
+import com.pub.pubcustomer.rest.callwaiter.PubCallWaiterRestService;
 import com.pub.pubcustomer.utils.PubConstants;
 
 /**
@@ -58,7 +58,7 @@ public class PubCallWaiterActivity extends AppCompatActivity {
     }
 
     public void callWaiterOnClick(View view) {
-        PubCallWaiterRestHelper.callWaiter(this,(PubCallWaiter) getIntent().getExtras().getSerializable("pubCallWaiter"));
+        PubCallWaiterRestHelper.callWaiterApi(this,(PubCallWaiter) getIntent().getExtras().getSerializable("pubCallWaiter"));
     }
 
     @Override
