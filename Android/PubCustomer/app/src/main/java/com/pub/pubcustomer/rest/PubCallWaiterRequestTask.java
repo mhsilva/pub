@@ -44,8 +44,16 @@ public class PubCallWaiterRequestTask  extends AsyncTask<Void, Void, PubStatus> 
   @Override
     protected void onPostExecute(PubStatus pubStatus) {
       //Send result to Activity PubCallWaiterActivity
+      Boolean result = Boolean.FALSE;
       Intent intent = new Intent(PubConstants.CALL_WAITER_SERVICE_NOTIFICATION);
-      Boolean result = pubStatus.getContent().size() > 0? Boolean.TRUE :Boolean.FALSE;
+
+      //TODO Melhorar exception - Call Waiter
+      if(pubStatus != null  ){
+          if(pubStatus.getContent().size() > 0){
+              result = Boolean.TRUE;
+          }
+      }
+
       intent.putExtra(PubConstants.RESULT, result);
       intent.putExtra(PubConstants.PUB_STATUS, pubStatus);
       mContext.sendBroadcast(intent);
