@@ -8,7 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.pub.pubcustomer.R;
-import com.pub.pubcustomer.entity.PubPlace;
+import com.pub.pubcustomer.entity.PubPlaceLikelihood;
 
 import java.util.List;
 
@@ -18,10 +18,10 @@ import java.util.List;
 public class PubCurrentPlaceAdapter  extends BaseAdapter {
 
     private final Context context;
-    private final List<PubPlace> pubPlaceCollection;
+    private final List<PubPlaceLikelihood> pubPlaceCollection;
 
 
-    public PubCurrentPlaceAdapter(Context context,List<PubPlace> placecCollection ){
+    public PubCurrentPlaceAdapter(Context context,List<PubPlaceLikelihood> placecCollection ){
         this.context = context;
         this.pubPlaceCollection = placecCollection;
     }
@@ -49,10 +49,10 @@ public class PubCurrentPlaceAdapter  extends BaseAdapter {
         TextView tvLocationId = (TextView) view.findViewById(R.id.tLocationId);
         TextView tvTableNumber = (TextView) view.findViewById(R.id.tPlaceName);
 
-        PubPlace pubCallWaiter = pubPlaceCollection.get(position);
+        PubPlaceLikelihood pubPlace = pubPlaceCollection.get(position);
 
-        tvLocationId.setText(pubCallWaiter.getPlace().getId());
-        tvTableNumber.setText(pubCallWaiter.getPlace().getName().toString());
+        tvLocationId.setText(pubPlace.getPlace().getId());
+        tvTableNumber.setText(pubPlace.getPlace().getName());
 
         return view;
     }

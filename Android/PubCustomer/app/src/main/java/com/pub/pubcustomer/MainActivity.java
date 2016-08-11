@@ -20,6 +20,7 @@ import com.google.android.gms.location.places.PlaceLikelihoodBuffer;
 import com.google.android.gms.location.places.Places;
 import com.pub.pubcustomer.entity.PubCallWaiter;
 import com.pub.pubcustomer.entity.PubPlace;
+import com.pub.pubcustomer.entity.PubPlaceLikelihood;
 import com.pub.pubcustomer.places.PlaceFilter;
 import com.pub.pubcustomer.ui.PubCallWaiterActivity;
 import com.pub.pubcustomer.ui.PubCurrentPlaceAdapter;
@@ -33,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     private GoogleApiClient mGoogleApiClient;
     private ListView mListView;
-    private List<PubPlace> pubPlaceCollection = new ArrayList<>();
+    private List<PubPlaceLikelihood> pubPlaceCollection = new ArrayList<>();
     private static final String TAG = "MainActivity";
 
     @Override
@@ -58,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
                                            int arg2, long arg3) {
                 // TODO Auto-generated method stub
-                final PubPlace pubPlace = pubPlaceCollection.get(arg2);
+                final PubPlaceLikelihood pubPlace = pubPlaceCollection.get(arg2);
                 Log.w("HHHHHHHHHHHHHH", pubPlace.getPlace().getId());
                 return true;
             }
@@ -87,20 +88,20 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             public void onResult(PlaceLikelihoodBuffer likelyPlaces) {
 
                 //TODO Delete line below
-                //pubPlaceCollection.add(new PubPlace("ChIJb4x_rlvPyJQRI-DvjnJ6-n8", "Thomson Reuters"));
+                pubPlaceCollection.add(new PubPlaceLikelihood(new PubPlace("ChIJb4x_rlvPyJQRI-DvjnJ6-n8","Thomson Reuters"), 1));
 
                 for (PlaceLikelihood placeLikelihood : likelyPlaces) {
 
                     //Only present estabilishemtns Pub (Cafe, Bar, Cassino etc)
                     if (PlaceFilter.contaisPlaceType(placeLikelihood.getPlace().getPlaceTypes())) {
-                        pubPlaceCollection.add(new PubPlace(placeLikelihood.getPlace().freeze(), placeLikelihood.getLikelihood()));
+                        pubPlaceCollection.add(new PubPlaceLikelihood(placeLikelihood.getPlace().freeze(), placeLikelihood.getLikelihood()));
                     }
 
                     Log.i(TAG, String.format("Place '%s' with " + "likelihood: %g" + " with Place Types %s'", placeLikelihood.getPlace().getName(), placeLikelihood.getLikelihood(), placeLikelihood.getPlace().getPlaceTypes().toString()));
                 }
 
-               /* if (pubPlaceCollection.size() == 0)
-                    pubPlaceCollection.add(new PubPlace("0", "No places found"));*/
+               if (pubPlaceCollection.size() == 0)
+                pubPlaceCollection.add(new PubPlaceLikelihood(new PubPlace("0","No Places Found around"), 0));
 
                 mListView = (ListView) findViewById(R.id.listView);
                 mListView.setAdapter(new PubCurrentPlaceAdapter(MainActivity.this, pubPlaceCollection));
@@ -114,7 +115,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int idx, long l) {
 
-        final PubPlace pubPlace = this.pubPlaceCollection.get(idx);
+        final PubPlaceLikelihood pubPlace = this.pubPlaceCollection.get(idx);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
