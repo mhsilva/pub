@@ -14,6 +14,8 @@ public class PlaceFilter {
     private static List<Integer> placesFilter = new ArrayList<>();
 
     private static List<Integer> getPlacesFilter() {
+
+        placesFilter.add(Place.TYPE_BAKERY);
         placesFilter.add(Place.TYPE_BAR);
         placesFilter.add(Place.TYPE_CAFE);
         placesFilter.add(Place.TYPE_CASINO);
@@ -22,7 +24,9 @@ public class PlaceFilter {
         placesFilter.add(Place.TYPE_LIQUOR_STORE);
         placesFilter.add(Place.TYPE_NIGHT_CLUB);
         placesFilter.add(Place.TYPE_RESTAURANT);
-        placesFilter.add(Place.TYPE_BAKERY);
+
+        //TODO Delete line below
+        placesFilter.add(Place.TYPE_ESTABLISHMENT);
 
         return placesFilter;
     }
