@@ -57,7 +57,7 @@ public class PubEstablishmentRequestTask extends AsyncTask<Map<String, List<Stri
                     entity,
                     PubEstablishmentStatus[].class);
 
-            Log.d(TAG, "Get /establishment?locationIdList Api Sucessfull" );
+            Log.d(TAG, "Get /establishment?locationIdList Api successfully" );
 
         } catch (Throwable e) {
             Log.e(TAG, "doInBackground: Error! " + e.getMessage(), e);
@@ -74,12 +74,12 @@ public class PubEstablishmentRequestTask extends AsyncTask<Map<String, List<Stri
         if(pubEstablishmentStatusCollection.getStatusCode().equals(HttpStatus.OK) || pubEstablishmentStatusCollection.getStatusCode().equals(HttpStatus.ACCEPTED)){
             result = true;
             intent.putExtra(PubConstants.RESULT, result);
-            intent.putExtra(PubConstants.PUB_ESTABLISHMENTS_STATUS, copyArrayToHashTable(pubEstablishmentStatusCollection.getBody()));
+            intent.putExtra(PubConstants.PUB_ESTABLISHMENTS_STATUS, copyArrayToMap(pubEstablishmentStatusCollection.getBody()));
             mContext.sendBroadcast(intent);
         }
     }
 
-    private HashMap<String, Boolean> copyArrayToHashTable(PubEstablishmentStatus[] pubEstablishmentStatusCollection){
+    private HashMap<String, Boolean> copyArrayToMap(PubEstablishmentStatus[] pubEstablishmentStatusCollection){
 
         HashMap<String, Boolean> establishmentStatusByLocationId
                 = new HashMap<String, Boolean>(pubEstablishmentStatusCollection.length);

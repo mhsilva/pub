@@ -12,9 +12,9 @@ import com.pub.pubcustomer.utils.PubConstants;
 /**
  * Created by Fernando Santiago on 04/08/2016.
  */
-public class PubCallWaiterRestAsyncService extends Service {
+public class PubCallWaiterRestService extends Service {
 
-    public static final String TAG = PubCallWaiterRestAsyncService.class.getSimpleName();
+    public static final String TAG = PubCallWaiterRestService.class.getSimpleName();
     private final IBinder mBinder = new MyBinder();
 
     @Override
@@ -36,8 +36,8 @@ public class PubCallWaiterRestAsyncService extends Service {
     }
 
     public class MyBinder extends Binder {
-        PubCallWaiterRestAsyncService getService() {
-            return PubCallWaiterRestAsyncService.this;
+        PubCallWaiterRestService getService() {
+            return PubCallWaiterRestService.this;
         }
     }
 }
