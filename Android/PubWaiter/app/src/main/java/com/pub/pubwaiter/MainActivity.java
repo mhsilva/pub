@@ -2,16 +2,14 @@ package com.pub.pubwaiter;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
 import com.pub.pubwaiter.entity.PubWaiter;
 import com.pub.pubwaiter.gcmservice.GcmIntentService;
-import com.pub.pubwaiter.rest.util.PubRestService;
 import com.pub.pubwaiter.rest.util.PubWaiterRestHelper;
 import com.pub.pubwaiter.util.PubConstants;
 

@@ -75,8 +75,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
                 // Context context = getApplicationContext();
                 StringBuilder sb = new StringBuilder();
-                sb.append(pubPlace.getPlace().getAddress()).append("\n").
-                        append(pubPlace.getPlace().getPhoneNumber());
+                sb.append(pubPlace.getPlace().getAddress()).append("\n");
+                sb.append(pubPlace.getPlace().getPhoneNumber()).append("\n");
+                sb.append(pubPlace.getPlace().getWebsiteUri()).append("\n");
+
                 Toast toast = Toast.makeText(MainActivity.this, sb, Toast.LENGTH_LONG);
                 toast.show();
 

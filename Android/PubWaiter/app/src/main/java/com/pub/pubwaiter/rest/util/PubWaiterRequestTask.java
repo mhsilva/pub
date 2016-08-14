@@ -6,7 +6,6 @@ import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-import com.pub.pubwaiter.MainActivity;
 import com.pub.pubwaiter.entity.PubWaiter;
 import com.pub.pubwaiter.util.PubConstants;
 

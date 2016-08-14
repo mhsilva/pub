@@ -2,14 +2,11 @@ package com.pub.pubwaiter.rest.util;
 
 import android.app.Service;
 import android.content.Intent;
-import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
 
 import com.pub.pubwaiter.entity.PubWaiter;
 import com.pub.pubwaiter.util.PubConstants;
-
-import java.io.Serializable;
 
 /**
  * Created by Matheus on 03/08/2016.
@@ -27,7 +24,7 @@ public class PubRestService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.d(TAG, "onStartCommand: Start rest Service.");
         PubWaiter pubWaiter = (PubWaiter) intent.getExtras().getSerializable(PubConstants.PUB_WAITER);
-        PubWaiterRequestTask pubWaiterRequestTask = new PubWaiterRequestTask(getApplicationContext(), pubWaiter);
+        PubWaiterRequestTask pubWaiterRequestTask = new PubWaiterRequestTask(getBaseContext(), pubWaiter);
         pubWaiterRequestTask.execute();
         Log.d(TAG, "onStartCommand: rest Service finish.");
         return START_STICKY;
