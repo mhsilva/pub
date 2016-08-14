@@ -71,7 +71,7 @@ public class PubCallWaiterActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         registerReceiver(receiver, new IntentFilter(
-                PubConstants.CALL_WAITER_SERVICE_NOTIFICATION));
+                PubConstants.CALL_WAITER_SERVICE_NOTIFICATION_API));
     }
     @Override
     protected void onPause() {

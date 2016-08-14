@@ -12,5 +12,7 @@ public class PubConstants {
     public static final String LOCATION_ID_LIST= "locationIdList";
     public static final String PUB_STATUS = "PubStatus";
     public static final String RESULT = "result";
-    public static final String CALL_WAITER_SERVICE_NOTIFICATION = "com.pub.pubcustomer.rest";
+    public static final String CALL_WAITER_SERVICE_NOTIFICATION_API = "com.pub.pubcustomer.rest";
+    public static final String PUB_ESTABLISHMENTS_STATUS ="PubEstablishmentStatus";
+    public static final String CALL_PUB_ESTABLISHMENTS_STATUS_API = "com.pub.pubcustomer.rest.establishment";
 }

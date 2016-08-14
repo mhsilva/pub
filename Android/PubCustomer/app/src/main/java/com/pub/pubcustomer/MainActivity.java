@@ -1,7 +1,10 @@
 package com.pub.pubcustomer;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -19,7 +22,6 @@ import com.google.android.gms.location.places.PlaceLikelihood;
 import com.google.android.gms.location.places.PlaceLikelihoodBuffer;
 import com.google.android.gms.location.places.Places;
 import com.pub.pubcustomer.entity.PubCallWaiter;
-import com.pub.pubcustomer.entity.PubEstablishmentStatus;
 import com.pub.pubcustomer.entity.PubPlace;
 import com.pub.pubcustomer.entity.PubPlaceLikelihood;
 import com.pub.pubcustomer.places.PlaceFilter;
@@ -40,14 +42,43 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private GoogleApiClient mGoogleApiClient;
     private ListView mListView;
     private List<PubPlaceLikelihood> pubPlaceLikelihoodAll = new ArrayList<>();
-    private List<PubPlaceLikelihood> pubPlaceLikelihoodUnRegistered = new ArrayList<>();
     private List<PubPlaceLikelihood> getPubPlaceLikelihoodRegistered = new ArrayList<>();
+    private List<PubPlaceLikelihood> pubPlaceLikelihoodUnRegistered = new ArrayList<>();
     private  List<String> checkLocationIdRegistered = new ArrayList<>();
-
     private Map<String,List<String>> checkLocationIdRegisteredMap = new HashMap<>();
-
-    private List<PubEstablishmentStatus> pubEstablishmentStatusCollection;
     private static final String TAG = MainActivity.class.getSimpleName();
+
+    private BroadcastReceiver receiver = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Bundle bundle = intent.getExtras();
+            if (bundle != null) {
+
+                if (bundle.getBoolean(PubConstants.RESULT)) {
+
+                    HashMap<String, Boolean> establishmentStatusByLocationId = (HashMap<String, Boolean>) bundle.getSerializable(PubConstants.PUB_ESTABLISHMENTS_STATUS);
+
+                    for(PubPlaceLikelihood pubPlaceLikelihood: pubPlaceLikelihoodAll){
+
+                        //Estabilhement is registered
+                        if(establishmentStatusByLocationId.get(pubPlaceLikelihood.getPlace().getId())){
+                            getPubPlaceLikelihoodRegistered.add(pubPlaceLikelihood);
+                        }else{
+                            pubPlaceLikelihoodUnRegistered.add(pubPlaceLikelihood);
+                        }
+                    }
+
+                    if(getPubPlaceLikelihoodRegistered.size() >0){
+                        mListView = (ListView) findViewById(R.id.listView);
+                         mListView.setAdapter(new PubCurrentPlaceAdapter(MainActivity.this, getPubPlaceLikelihoodRegistered));
+                        mListView.setOnItemClickListener(MainActivity.this);
+                    }
+                    //TODO else for Places Unregistered
+                }
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,14 +157,14 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 ///Check status from Establishement (active or inactive) on Pub Backend
                 checkLocationIdRegisteredMap.put(PubConstants.LOCATION_ID_LIST,checkLocationIdRegistered);
                 PubEstablishmentRest pubEstablishmentRestHelper = new PubEstablishmentRest();
-                pubEstablishmentRestHelper.checkPubEstablishementsStatus(checkLocationIdRegisteredMap);
+                pubEstablishmentRestHelper.checkPubEstablishementsStatus(MainActivity.this,checkLocationIdRegisteredMap);
 
                 if (pubPlaceLikelihoodAll.size() == 0)
                     pubPlaceLikelihoodAll.add(new PubPlaceLikelihood(new PubPlace("0", "No Places Found around"), 0));
 
-                mListView = (ListView) findViewById(R.id.listView);
-                mListView.setAdapter(new PubCurrentPlaceAdapter(MainActivity.this, pubPlaceLikelihoodAll));
-                mListView.setOnItemClickListener(MainActivity.this);
+               // mListView = (ListView) findViewById(R.id.listView);
+               // mListView.setAdapter(new PubCurrentPlaceAdapter(MainActivity.this, pubPlaceLikelihoodAll));
+               // mListView.setOnItemClickListener(MainActivity.this);
 
                 likelyPlaces.release();
             }
@@ -187,5 +218,17 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        registerReceiver(receiver, new IntentFilter(
+                PubConstants.CALL_PUB_ESTABLISHMENTS_STATUS_API));
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(receiver);
     }
 }

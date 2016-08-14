@@ -1,5 +1,6 @@
 package com.pub.pubcustomer.rest.establishment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.text.TextUtils;
@@ -18,6 +19,7 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -29,6 +31,11 @@ public class PubEstablishmentRequestTask extends AsyncTask<Map<String, List<Stri
     private static final String TAG = PubEstablishmentRequestTask.class.getSimpleName();
     private final String url = PubConstants.BASE_URL + PubConstants.REST_ESTABLISHIMENT_METHOD;
     private  ResponseEntity<PubEstablishmentStatus[]> pubEstablishmentStatusCollection;
+    private Context mContext;
+
+    public PubEstablishmentRequestTask(Context mContext) {
+        this.mContext = mContext;
+    }
 
     @Override
     protected ResponseEntity<PubEstablishmentStatus[]>  doInBackground(Map<String, List<String>>... checkLocationIdRegisteredMap) {
@@ -62,15 +69,25 @@ public class PubEstablishmentRequestTask extends AsyncTask<Map<String, List<Stri
     protected void onPostExecute(ResponseEntity<PubEstablishmentStatus[]> pubEstablishmentStatusCollection ) {
 
         Boolean result;
-        Intent intent = new Intent(PubConstants.CALL_WAITER_SERVICE_NOTIFICATION);
+        Intent intent = new Intent(PubConstants.CALL_PUB_ESTABLISHMENTS_STATUS_API);
 
         if(pubEstablishmentStatusCollection.getStatusCode().equals(HttpStatus.OK) || pubEstablishmentStatusCollection.getStatusCode().equals(HttpStatus.ACCEPTED)){
             result = true;
-
             intent.putExtra(PubConstants.RESULT, result);
-            intent.putExtra(PubConstants.PUB_STATUS, pubEstablishmentStatusCollection.getBody());
-            //TODO Get Context for passed via contructor or parameter to notify MainAcitivity
-            //mContext.sendBroadcast(intent);
+            intent.putExtra(PubConstants.PUB_ESTABLISHMENTS_STATUS, copyArrayToHashTable(pubEstablishmentStatusCollection.getBody()));
+            mContext.sendBroadcast(intent);
         }
+    }
+
+    private HashMap<String, Boolean> copyArrayToHashTable(PubEstablishmentStatus[] pubEstablishmentStatusCollection){
+
+        HashMap<String, Boolean> establishmentStatusByLocationId
+                = new HashMap<String, Boolean>(pubEstablishmentStatusCollection.length);
+
+        for(int i=0; i<pubEstablishmentStatusCollection.length; i++){
+            establishmentStatusByLocationId.put(pubEstablishmentStatusCollection[i].getLocationId(),pubEstablishmentStatusCollection[i].isRegistered());
+        }
+
+        return establishmentStatusByLocationId;
     }
 }
