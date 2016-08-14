@@ -15,11 +15,10 @@ import java.util.List;
 /**
  * Created by Fernando Santiago on 02/08/2016.
  */
-public class PubCurrentPlaceAdapter  extends BaseAdapter {
+public class PubCurrentPlaceAdapter extends BaseAdapter {
 
     private final Context context;
     private final List<PubPlaceLikelihood> pubPlaceCollection;
-
 
     public PubCurrentPlaceAdapter(Context context,List<PubPlaceLikelihood> placecCollection ){
         this.context = context;
@@ -44,7 +43,7 @@ public class PubCurrentPlaceAdapter  extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        View view = LayoutInflater.from(context).inflate(R.layout.adapter_current_place, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.activity_pub_place_registered, parent, false);
 
         TextView tvLocationId = (TextView) view.findViewById(R.id.tLocationId);
         TextView tvTableNumber = (TextView) view.findViewById(R.id.tPlaceName);

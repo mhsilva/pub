@@ -52,7 +52,7 @@ public class PubCallWaiterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.acitivity_pub_call_waiter);
+        setContentView(R.layout.activity_pub_call_waiter);
         mListView = (ListView) findViewById(R.id.listView2);
         setTitle(getIntent().getStringExtra("placeName"));
     }

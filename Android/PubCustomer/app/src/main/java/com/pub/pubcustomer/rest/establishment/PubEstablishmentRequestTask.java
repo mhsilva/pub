@@ -26,11 +26,11 @@ import java.util.Map;
 /**
  * Created by Fernando Santiago on 11/08/2016.
  */
-public class PubEstablishmentRequestTask extends AsyncTask<Map<String, List<String>>, Void, ResponseEntity<PubEstablishmentStatus[]> > {
+public class PubEstablishmentRequestTask extends AsyncTask<Map<String, List<String>>, Void, ResponseEntity<PubEstablishmentStatus[]>> {
 
     private static final String TAG = PubEstablishmentRequestTask.class.getSimpleName();
     private final String url = PubConstants.BASE_URL + PubConstants.REST_ESTABLISHIMENT_METHOD;
-    private  ResponseEntity<PubEstablishmentStatus[]> pubEstablishmentStatusCollection;
+    private ResponseEntity<PubEstablishmentStatus[]> pubEstablishmentStatusCollection;
     private Context mContext;
 
     public PubEstablishmentRequestTask(Context mContext) {
@@ -38,7 +38,7 @@ public class PubEstablishmentRequestTask extends AsyncTask<Map<String, List<Stri
     }
 
     @Override
-    protected ResponseEntity<PubEstablishmentStatus[]>  doInBackground(Map<String, List<String>>... checkLocationIdRegisteredMap) {
+    protected ResponseEntity<PubEstablishmentStatus[]> doInBackground(Map<String, List<String>>... checkLocationIdRegisteredMap) {
 
         try {
             RestTemplate restTemplate = new RestTemplate();
@@ -58,7 +58,7 @@ public class PubEstablishmentRequestTask extends AsyncTask<Map<String, List<Stri
                     entity,
                     PubEstablishmentStatus[].class);
 
-            Log.d(TAG, "Get /establishment?locationIdList Api successfully" );
+            Log.d(TAG, "Get /establishment?locationIdList Api successfully");
 
         } catch (Throwable e) {
             Log.e(TAG, "doInBackground: Error! " + e.getMessage(), e);
@@ -67,26 +67,30 @@ public class PubEstablishmentRequestTask extends AsyncTask<Map<String, List<Stri
     }
 
     @Override
-    protected void onPostExecute(ResponseEntity<PubEstablishmentStatus[]> pubEstablishmentStatusCollection ) {
+    protected void onPostExecute(ResponseEntity<PubEstablishmentStatus[]> pubEstablishmentStatusCollection) {
 
-        Boolean result;
+        Boolean result = false;
         Intent intent = new Intent(PubConstants.CALL_PUB_ESTABLISHMENTS_STATUS_API);
 
-        if(pubEstablishmentStatusCollection.getStatusCode().equals(HttpStatus.OK) || pubEstablishmentStatusCollection.getStatusCode().equals(HttpStatus.ACCEPTED)){
-            result = true;
-            intent.putExtra(PubConstants.RESULT, result);
-            intent.putExtra(PubConstants.PUB_ESTABLISHMENTS_STATUS, copyArrayToMap(pubEstablishmentStatusCollection.getBody()));
-            mContext.sendBroadcast(intent);
+        if (pubEstablishmentStatusCollection != null) {
+
+            if (HttpStatus.OK.equals(pubEstablishmentStatusCollection.getStatusCode()) || HttpStatus.ACCEPTED.equals(pubEstablishmentStatusCollection.getStatusCode())) {
+                intent.putExtra(PubConstants.PUB_ESTABLISHMENTS_STATUS, copyArrayToMap(pubEstablishmentStatusCollection.getBody()));
+                result = true;
+            }
         }
+
+        intent.putExtra(PubConstants.RESULT, result);
+        mContext.sendBroadcast(intent);
     }
 
-    private HashMap<String, Boolean> copyArrayToMap(PubEstablishmentStatus[] pubEstablishmentStatusCollection){
+    private HashMap<String, Boolean> copyArrayToMap(PubEstablishmentStatus[] pubEstablishmentStatusCollection) {
 
         HashMap<String, Boolean> establishmentStatusByLocationId
                 = new HashMap<String, Boolean>(pubEstablishmentStatusCollection.length);
 
-        for(int i=0; i<pubEstablishmentStatusCollection.length; i++){
-            establishmentStatusByLocationId.put(pubEstablishmentStatusCollection[i].getLocationId(),pubEstablishmentStatusCollection[i].isRegistered());
+        for (int i = 0; i < pubEstablishmentStatusCollection.length; i++) {
+            establishmentStatusByLocationId.put(pubEstablishmentStatusCollection[i].getLocationId(), pubEstablishmentStatusCollection[i].isRegistered());
         }
 
         return establishmentStatusByLocationId;
