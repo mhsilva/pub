@@ -28,9 +28,7 @@
 
         <activity android:name=".ui.PubCallWaiterActivity" />
 
-        <service android:name=".rest.callwaiter.PubCallWaiterRestService"></service>
-
-        <service android:name=".rest.establishment.PubEstablishmentRestService"></service>
+        <service android:name=".rest.callwaiter.PubCallWaiterRestAsyncService"></service>
 
     </application>
 
