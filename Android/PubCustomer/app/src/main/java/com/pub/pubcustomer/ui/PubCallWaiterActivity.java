@@ -15,7 +15,7 @@ import com.pub.pubcustomer.R;
 import com.pub.pubcustomer.entity.PubCallWaiter;
 import com.pub.pubcustomer.entity.PubStatus;
 import com.pub.pubcustomer.rest.callwaiter.PubCallWaiterRestHelper;
-import com.pub.pubcustomer.rest.callwaiter.PubCallWaiterRestService;
+import com.pub.pubcustomer.rest.callwaiter.PubCallWaiterRestAsyncService;
 import com.pub.pubcustomer.utils.PubConstants;
 
 /**
@@ -64,7 +64,7 @@ public class PubCallWaiterActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        stopService(new Intent(this, PubCallWaiterRestService.class));
+        stopService(new Intent(this, PubCallWaiterRestAsyncService.class));
     }
 
     @Override

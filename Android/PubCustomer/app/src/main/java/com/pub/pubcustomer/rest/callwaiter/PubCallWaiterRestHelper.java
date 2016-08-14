@@ -16,7 +16,7 @@ public class PubCallWaiterRestHelper {
 
     public static void callWaiterApi(Context context, PubCallWaiter pubCallWaiterApi) {
         Log.d(TAG, "Sending Call Waiter.");
-        Intent i = new Intent(context, PubCallWaiterRestService.class);
+        Intent i = new Intent(context, PubCallWaiterRestAsyncService.class);
         i.setAction("start");
         i.putExtra(PubConstants.PUB_CALL_WAITER, pubCallWaiterApi);
         context.startService(i);
