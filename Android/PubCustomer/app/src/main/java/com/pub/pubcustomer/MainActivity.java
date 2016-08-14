@@ -140,7 +140,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             public void onResult(PlaceLikelihoodBuffer likelyPlaces) {
 
                 //TODO Delete line Two below
-                pubPlaceLikelihoodAll.add(new PubPlaceLikelihood(new PubPlace("ChIJb4x_rlvPyJQRI-DvjnJ6-n8", "Thomson Reuters"), 1));
+                pubPlaceLikelihoodAll.add(new PubPlaceLikelihood(new PubPlace("ChIJb4x_rlvPyJQRI-DvjnJ6-n8", "Thompson"), 1));
                 checkLocationIdRegistered.add("ChIJb4x_rlvPyJQRI-DvjnJ6-n8");
 
                 for (PlaceLikelihood placeLikelihood : likelyPlaces) {

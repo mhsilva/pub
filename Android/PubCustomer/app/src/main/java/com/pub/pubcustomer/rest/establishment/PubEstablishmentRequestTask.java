@@ -45,6 +45,7 @@ public class PubEstablishmentRequestTask extends AsyncTask<Map<String, List<Stri
             restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
 
             //Build query parameters from URL, for example: https://pubbackend.herokuapp.com/establishment?locationIdList=ChIJb4x_rlvPyJQRI-DvjnJ6-n8,location2,location2..locationN
+            //TODO Check if checkLocationIdRegisteredMap[0 is not null (delete Thomson)
             UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url)
                     .queryParam(PubConstants.LOCATION_ID_LIST, TextUtils.join(",", checkLocationIdRegisteredMap[0].get(PubConstants.LOCATION_ID_LIST)));
 
