@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.IntentSender;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -18,6 +19,12 @@ import android.widget.Toast;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.LocationSettingsResult;
+import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.android.gms.location.places.PlaceLikelihood;
 import com.google.android.gms.location.places.PlaceLikelihoodBuffer;
 import com.google.android.gms.location.places.Places;
@@ -39,7 +46,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener,ResultCallback<LocationSettingsResult>  {
 
     private GoogleApiClient mGoogleApiClient;
     private ListView mListView;
@@ -49,6 +56,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private List<String> checkLocationIdRegistered = new ArrayList<>();
     private Map<String, List<String>> checkLocationIdRegisteredMap = new HashMap<>();
     private static final String TAG = MainActivity.class.getSimpleName();
+    protected LocationRequest mLocationRequest;
+    protected LocationSettingsRequest mLocationSettingsRequest;
+    protected static final int REQUEST_CHECK_SETTINGS = 0x1;
 
     private BroadcastReceiver receiver = new BroadcastReceiver() {
 
@@ -95,13 +105,21 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pub_main);
 
-        if(PubNetworkUtils.isNetworkAvailable(this)){
+        buildGoogleApiClient();
+        createLocationRequest();
+        buildLocationSettingsRequest();
+        checkLocationSettings();
 
-            mGoogleApiClient = new GoogleApiClient
+        if (PubNetworkUtils.isNetworkAvailable(this)) {
+
+         /*   mGoogleApiClient = new GoogleApiClient
                     .Builder(this)
                     .addApi(Places.GEO_DATA_API)
                     .addApi(Places.PLACE_DETECTION_API)
-                    .build();
+                    .addApi(LocationServices.API)
+                    .build();*/
+
+            buildGoogleApiClient();
 
             getGooglePlacesApi(mGoogleApiClient);
 
@@ -128,14 +146,14 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 }
             });
 
-        }else{
-            PubAlertUtils.alert(this,"No Network avaliable","Enable Wi-fi or 3g/4g/Connections",0,0);
+        } else {
+            PubAlertUtils.alert(this, "No Network avaliable", "Enable Wi-fi or 3g/4g/Connections", 0, 0);
         }
     }
 
     @Override
     public void onStart() {
-        if(PubNetworkUtils.isNetworkAvailable(this)) {
+        if (PubNetworkUtils.isNetworkAvailable(this)) {
             mGoogleApiClient.connect();
         }
         super.onStart();
@@ -143,7 +161,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     @Override
     public void onStop() {
-        mGoogleApiClient.disconnect();
+        if (PubNetworkUtils.isNetworkAvailable(this)) mGoogleApiClient.disconnect();
         super.onStop();
     }
 
@@ -246,5 +264,66 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     protected void onPause() {
         super.onPause();
         unregisterReceiver(receiver);
+    }
+
+
+    protected void createLocationRequest() {
+        mLocationRequest = new LocationRequest();
+
+
+
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+    }
+
+    protected void checkLocationSettings() {
+        PendingResult<LocationSettingsResult> result =
+                LocationServices.SettingsApi.checkLocationSettings(
+                        mGoogleApiClient,
+                        mLocationSettingsRequest
+                );
+        result.setResultCallback(this);
+    }
+
+    protected void buildLocationSettingsRequest() {
+        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder();
+        builder.addLocationRequest(mLocationRequest);
+        mLocationSettingsRequest = builder.build();
+    }
+
+    @Override
+    public void onResult(LocationSettingsResult locationSettingsResult) {
+        final Status status = locationSettingsResult.getStatus();
+        switch (status.getStatusCode()) {
+            case LocationSettingsStatusCodes.SUCCESS:
+                Log.i(TAG, "All location settings are satisfied.");
+                //startLocationUpdates();
+                break;
+            case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
+                Log.i(TAG, "Location settings are not satisfied. Show the user a dialog to" +
+                        "upgrade location settings ");
+
+                try {
+                    // Show the dialog by calling startResolutionForResult(), and check the result
+                    // in onActivityResult().
+                    status.startResolutionForResult(MainActivity.this, REQUEST_CHECK_SETTINGS);
+                } catch (IntentSender.SendIntentException e) {
+                    Log.i(TAG, "PendingIntent unable to execute request.");
+                }
+                break;
+            case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
+                Log.i(TAG, "Location settings are inadequate, and cannot be fixed here. Dialog " +
+                        "not created.");
+                break;
+        }
+    }
+
+    protected synchronized void buildGoogleApiClient() {
+        Log.i(TAG, "Building GoogleApiClient");
+        mGoogleApiClient = new GoogleApiClient
+                    .Builder(this)
+                    .addApi(Places.GEO_DATA_API)
+                    .addApi(Places.PLACE_DETECTION_API)
+                    .addApi(LocationServices.API)
+                    .build();
     }
 }
