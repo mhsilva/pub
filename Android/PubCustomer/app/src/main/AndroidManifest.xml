@@ -20,7 +20,8 @@
             android:value="AIzaSyAk0TRNPvJG3CMX0YjHE7E5kNbWcKHx4Vw"/>
 
         <activity
-            android:name="com.pub.pubcustomer.ui.SplashActivity">
+            android:name="com.pub.pubcustomer.ui.SplashActivity"
+            android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

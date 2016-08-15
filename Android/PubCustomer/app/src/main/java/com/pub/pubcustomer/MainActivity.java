@@ -1,5 +1,6 @@
 package com.pub.pubcustomer;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -105,22 +106,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pub_main);
 
-        buildGoogleApiClient();
-        createLocationRequest();
-        buildLocationSettingsRequest();
-        checkLocationSettings();
-
-        if (PubNetworkUtils.isNetworkAvailable(this)) {
-
-         /*   mGoogleApiClient = new GoogleApiClient
-                    .Builder(this)
-                    .addApi(Places.GEO_DATA_API)
-                    .addApi(Places.PLACE_DETECTION_API)
-                    .addApi(LocationServices.API)
-                    .build();*/
-
             buildGoogleApiClient();
-
             getGooglePlacesApi(mGoogleApiClient);
 
             mListView = (ListView) findViewById(R.id.listView);
@@ -146,9 +132,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 }
             });
 
-        } else {
-            PubAlertUtils.alert(this, "No Network avaliable", "Enable Wi-fi or 3g/4g/Connections", 0, 0);
-        }
+        buildGoogleApiClient();
+        createLocationRequest();
+        buildLocationSettingsRequest();
+        checkLocationSettings();
     }
 
     @Override
@@ -266,12 +253,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         unregisterReceiver(receiver);
     }
 
-
     protected void createLocationRequest() {
         mLocationRequest = new LocationRequest();
-
-
-
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
     }
 
@@ -301,7 +284,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
                 Log.i(TAG, "Location settings are not satisfied. Show the user a dialog to" +
                         "upgrade location settings ");
-
                 try {
                     // Show the dialog by calling startResolutionForResult(), and check the result
                     // in onActivityResult().
@@ -313,6 +295,25 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
                 Log.i(TAG, "Location settings are inadequate, and cannot be fixed here. Dialog " +
                         "not created.");
+                break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            // Check for the integer request code originally supplied to startResolutionForResult().
+            case REQUEST_CHECK_SETTINGS:
+                switch (resultCode) {
+                    case Activity.RESULT_OK:
+                        Log.i(TAG, "User agreed to make required location settings changes.");
+                        //startLocationUpdates();
+                        break;
+                    case Activity.RESULT_CANCELED:
+                        Log.i(TAG, "User chose not to make required location settings changes.");
+                        PubAlertUtils.errorDialog(getApplicationContext(), this, getResources().getString(R.string.invalid_configuration), getResources().getString(R.string.error_enable_location));
+                        break;
+                }
                 break;
         }
     }

@@ -5,6 +5,8 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 
+import com.pub.pubcustomer.R;
+
 /**
  * Created by Fernando Santiago on 01/08/2016.
  */
@@ -70,5 +72,31 @@ public class PubAlertUtils {
         } catch (Exception e) {
            // Log.e(TAG, e.getMessage(), e);
         }
+    }
+
+    public static void errorDialog(Context context ,final Activity activity, String title, String message) {
+
+        android.support.v7.app.AlertDialog.Builder alertDialogBuilder = new android.support.v7.app.AlertDialog.Builder(activity);
+
+        // set title
+        alertDialogBuilder.setTitle(title);
+
+        // set dialog message
+        alertDialogBuilder
+                .setMessage(message)
+                .setCancelable(false)
+                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // if this button is clicked, close
+                        // current activity
+                        activity.finish();
+
+                    }
+                });
+        // create alert dialog
+        android.support.v7.app.AlertDialog alertDialog = alertDialogBuilder.create();
+
+        // show it
+        alertDialog.show();
     }
 }
