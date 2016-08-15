@@ -55,4 +55,20 @@ public class PubAlertUtils {
         android.support.v7.app.AlertDialog dialog = builder.create();
         dialog.show();
     }
+
+    public static void alertDialog(final Context context, final String title, final String mensagem) {
+        try {
+            AlertDialog dialog = new AlertDialog.Builder(context).setTitle(
+                    title).setMessage(mensagem)
+                    .create();
+            dialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+
+                }
+            });
+            dialog.show();
+        } catch (Exception e) {
+           // Log.e(TAG, e.getMessage(), e);
+        }
+    }
 }

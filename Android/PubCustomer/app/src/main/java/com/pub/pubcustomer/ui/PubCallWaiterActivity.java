@@ -16,7 +16,9 @@ import com.pub.pubcustomer.entity.PubCallWaiter;
 import com.pub.pubcustomer.entity.PubStatus;
 import com.pub.pubcustomer.rest.callwaiter.PubCallWaiterRestHelper;
 import com.pub.pubcustomer.rest.callwaiter.PubCallWaiterRestService;
+import com.pub.pubcustomer.utils.PubAlertUtils;
 import com.pub.pubcustomer.utils.PubConstants;
+import com.pub.pubcustomer.utils.PubNetworkUtils;
 
 /**
  * Created by Fernando Santiago on 03/08/2016.
@@ -58,7 +60,11 @@ public class PubCallWaiterActivity extends AppCompatActivity {
     }
 
     public void callWaiterOnClick(View view) {
-        PubCallWaiterRestHelper.callWaiterApi(this,(PubCallWaiter) getIntent().getExtras().getSerializable("pubCallWaiter"));
+        if(PubNetworkUtils.isNetworkAvailable(this)) {
+            PubCallWaiterRestHelper.callWaiterApi(this, (PubCallWaiter) getIntent().getExtras().getSerializable("pubCallWaiter"));
+        }else{
+            PubAlertUtils.alert(this,"No Network avaliable","Enable Wi-fi or 3g/4g/Connections",0,0);
+        }
     }
 
     @Override

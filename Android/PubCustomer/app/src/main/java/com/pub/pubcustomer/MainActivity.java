@@ -28,7 +28,9 @@ import com.pub.pubcustomer.places.PlaceFilter;
 import com.pub.pubcustomer.rest.establishment.PubEstablishmentRest;
 import com.pub.pubcustomer.ui.PubCallWaiterActivity;
 import com.pub.pubcustomer.ui.PubCurrentPlaceAdapter;
+import com.pub.pubcustomer.utils.PubAlertUtils;
 import com.pub.pubcustomer.utils.PubConstants;
+import com.pub.pubcustomer.utils.PubNetworkUtils;
 
 import org.springframework.util.StringUtils;
 
@@ -93,41 +95,49 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pub_main);
 
-        mGoogleApiClient = new GoogleApiClient
-                .Builder(this)
-                .addApi(Places.GEO_DATA_API)
-                .addApi(Places.PLACE_DETECTION_API)
-                .build();
+        if(PubNetworkUtils.isNetworkAvailable(this)){
 
-        getGooglePlacesApi(mGoogleApiClient);
+            mGoogleApiClient = new GoogleApiClient
+                    .Builder(this)
+                    .addApi(Places.GEO_DATA_API)
+                    .addApi(Places.PLACE_DETECTION_API)
+                    .build();
 
-        mListView = (ListView) findViewById(R.id.listView);
-        mListView.setLongClickable(true);
-        mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            getGooglePlacesApi(mGoogleApiClient);
 
-            @Override
-            public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
-                                           int arg2, long arg3) {
+            mListView = (ListView) findViewById(R.id.listView);
+            mListView.setLongClickable(true);
+            mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 
-                final PubPlaceLikelihood pubPlace = pubPlaceLikelihoodAll.get(arg2);
+                @Override
+                public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
+                                               int arg2, long arg3) {
 
-                // Context context = getApplicationContext();
-                StringBuilder sb = new StringBuilder();
-                sb.append(pubPlace.getPlace().getAddress()).append("\n");
-                sb.append(pubPlace.getPlace().getPhoneNumber()).append("\n");
-                sb.append(pubPlace.getPlace().getWebsiteUri()).append("\n");
+                    final PubPlaceLikelihood pubPlace = pubPlaceLikelihoodAll.get(arg2);
 
-                Toast toast = Toast.makeText(MainActivity.this, sb, Toast.LENGTH_LONG);
-                toast.show();
+                    // Context context = getApplicationContext();
+                    StringBuilder sb = new StringBuilder();
+                    sb.append(pubPlace.getPlace().getAddress()).append("\n");
+                    sb.append(pubPlace.getPlace().getPhoneNumber()).append("\n");
+                    sb.append(pubPlace.getPlace().getWebsiteUri()).append("\n");
 
-                return true;
-            }
-        });
+                    Toast toast = Toast.makeText(MainActivity.this, sb, Toast.LENGTH_LONG);
+                    toast.show();
+
+                    return true;
+                }
+            });
+
+        }else{
+            PubAlertUtils.alert(this,"No Network avaliable","Enable Wi-fi or 3g/4g/Connections",0,0);
+        }
     }
 
     @Override
     public void onStart() {
-        mGoogleApiClient.connect();
+        if(PubNetworkUtils.isNetworkAvailable(this)) {
+            mGoogleApiClient.connect();
+        }
         super.onStart();
     }
 
