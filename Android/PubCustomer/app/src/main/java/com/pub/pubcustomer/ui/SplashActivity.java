@@ -35,7 +35,7 @@ public class SplashActivity extends AppCompatActivity {
             if (PubNetworkUtils.isNetworkAvailable(this)) {
                 startActivity(new Intent(this, MainActivity.class));
             } else {
-                PubAlertUtils.errorDialog(getApplicationContext(), this, getResources().getString(R.string.invalid_configuration), getResources().getString(R.string.no_network));
+                PubAlertUtils.errorDialog(this, getResources().getString(R.string.invalid_configuration), getResources().getString(R.string.no_network));
             }
         }
     }

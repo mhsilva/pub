@@ -12,5 +12,9 @@
     <string name="no_network">No Network avaliable", "Enable Wi-fi or Mobile Data (3G/4G) Connections</string>
     <string name="invalid_configuration">Invalid Configuration</string>
     <string name="error_enable_location">To use the Pub you must enable location</string>
+    <string name="running">Running</string>
+    <string name="exit">Exit</string>
+    <string name="really_exit">You really want to close the application</string>
+    <string name="finding_places">Finding places near you</string>
 
 </resources>

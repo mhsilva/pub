@@ -2,6 +2,8 @@ package com.pub.pubcustomer.utils;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 
@@ -70,11 +72,11 @@ public class PubAlertUtils {
             });
             dialog.show();
         } catch (Exception e) {
-           // Log.e(TAG, e.getMessage(), e);
+            // Log.e(TAG, e.getMessage(), e);
         }
     }
 
-    public static void errorDialog(Context context ,final Activity activity, String title, String message) {
+    public static void errorDialog(final Activity activity, String title, String message) {
 
         android.support.v7.app.AlertDialog.Builder alertDialogBuilder = new android.support.v7.app.AlertDialog.Builder(activity);
 
@@ -98,5 +100,16 @@ public class PubAlertUtils {
 
         // show it
         alertDialog.show();
+    }
+
+    public static Dialog createDialog(final Activity activity, String message) {
+
+        ProgressDialog dialog = new ProgressDialog(activity);
+        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        dialog.setTitle(activity.getResources().getString(R.string.running));
+        dialog.setMessage(message);
+        dialog.setCancelable(false);
+
+        return dialog;
     }
 }

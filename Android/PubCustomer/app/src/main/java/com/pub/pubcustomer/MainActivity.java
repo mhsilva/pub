@@ -1,6 +1,7 @@
 package com.pub.pubcustomer;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -60,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     protected LocationRequest mLocationRequest;
     protected LocationSettingsRequest mLocationSettingsRequest;
     protected static final int REQUEST_CHECK_SETTINGS = 0x1;
+    private Dialog dialog;
 
     private BroadcastReceiver receiver = new BroadcastReceiver() {
 
@@ -90,6 +92,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 pubPlaceLikelihoodRegistered.add(new PubPlaceLikelihood(new PubPlace("0", "No Places Found around"), 0));
                 updateListView(pubPlaceLikelihoodRegistered);
             }
+
+            dialog.dismiss();
         }
     };
 
@@ -101,6 +105,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        dialog = PubAlertUtils.createDialog(this,getResources().getString(R.string.finding_places) );
+        dialog.show();
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pub_main);
@@ -149,7 +156,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     public void getGooglePlacesApi(GoogleApiClient mGoogleApiClient) throws SecurityException {
 
-        PendingResult<PlaceLikelihoodBuffer> result = Places.PlaceDetectionApi
+       PendingResult<PlaceLikelihoodBuffer> result = Places.PlaceDetectionApi
                 .getCurrentPlace(mGoogleApiClient, null);
 
         result.setResultCallback(new ResultCallback<PlaceLikelihoodBuffer>() {
@@ -307,7 +314,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                         break;
                     case Activity.RESULT_CANCELED:
                         Log.i(TAG, "User chose not to make required location settings changes.");
-                        PubAlertUtils.errorDialog(getApplicationContext(), this, getResources().getString(R.string.invalid_configuration), getResources().getString(R.string.error_enable_location));
+                        dialog.dismiss();
+                        PubAlertUtils.errorDialog(this, getResources().getString(R.string.invalid_configuration), getResources().getString(R.string.error_enable_location));
                         break;
                 }
                 break;
