@@ -16,5 +16,6 @@
     <string name="exit">Exit</string>
     <string name="really_exit">You really want to close the application</string>
     <string name="finding_places">Finding places near you</string>
+    <string name="calling_waiter">Calling Waiter</string>
 
 </resources>

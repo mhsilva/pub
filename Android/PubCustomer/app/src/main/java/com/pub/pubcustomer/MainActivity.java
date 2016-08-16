@@ -175,7 +175,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                         checkLocationIdRegistered.add(placeLikelihood.getPlace().getId());
                     }
 
-                    Log.i(TAG, String.format("Place '%s' with " + "likelihood: %g" + " with Place Types %s'", placeLikelihood.getPlace().getName(), placeLikelihood.getLikelihood(), placeLikelihood.getPlace().getPlaceTypes().toString()));
+                    Log.d(TAG, String.format("Place '%s' with " + "likelihood: %g" + " with Id Place '%s'" + " with Place Types '%s'",
+                            placeLikelihood.getPlace().getName(), placeLikelihood.getLikelihood(),
+                            placeLikelihood.getPlace().getId(),
+                            placeLikelihood.getPlace().getPlaceTypes().toString()));
                 }
 
                 ///Check status from Establishement (active or inactive) on Pub Backend

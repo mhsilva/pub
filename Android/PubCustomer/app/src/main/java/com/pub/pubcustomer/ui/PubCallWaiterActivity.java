@@ -1,5 +1,6 @@
 package com.pub.pubcustomer.ui;
 
+import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -26,6 +27,7 @@ import com.pub.pubcustomer.utils.PubNetworkUtils;
 public class PubCallWaiterActivity extends AppCompatActivity {
 
    private ListView mListView;
+   private Dialog dialog;
 
     private BroadcastReceiver receiver = new BroadcastReceiver() {
 
@@ -47,6 +49,8 @@ public class PubCallWaiterActivity extends AppCompatActivity {
                     mListView.setAdapter(new ArrayAdapter<String>(getBaseContext(), android.R.layout.simple_list_item_1, android.R.id.text1,new String[] {"Call Waiter failed, Try Again"}));
                 }
             }
+
+            dialog.dismiss();
         }
     };
 
@@ -61,9 +65,13 @@ public class PubCallWaiterActivity extends AppCompatActivity {
 
     public void callWaiterOnClick(View view) {
         if(PubNetworkUtils.isNetworkAvailable(this)) {
+
+            dialog = PubAlertUtils.createDialog(this,getResources().getString(R.string.calling_waiter) );
+            dialog.show();
+
             PubCallWaiterRestHelper.callWaiterApi(this, (PubCallWaiter) getIntent().getExtras().getSerializable("pubCallWaiter"));
         }else{
-            PubAlertUtils.alert(this,"No Network avaliable","Enable Wi-fi or 3g/4g/Connections",0,0);
+            PubAlertUtils.errorDialog(this, getResources().getString(R.string.invalid_configuration), getResources().getString(R.string.no_network));
         }
     }
 

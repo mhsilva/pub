@@ -57,5 +57,7 @@ public class PubCallWaiterRequestTask extends AsyncTask<Void, Void, PubStatus> {
         intent.putExtra(PubConstants.RESULT, result);
         intent.putExtra(PubConstants.PUB_STATUS, pubStatus);
         mContext.sendBroadcast(intent);
+
+        super.onPostExecute(pubStatus);
     }
 }
