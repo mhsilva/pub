@@ -94,7 +94,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     };
 
     private void updateListView(List<PubPlaceLikelihood> currentPlace) {
-
         mListView = (ListView) findViewById(R.id.listView);
         mListView.setAdapter(new PubCurrentPlaceAdapter(MainActivity.this, currentPlace));
         mListView.setOnItemClickListener(MainActivity.this);
@@ -106,9 +105,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pub_main);
 
-            buildGoogleApiClient();
-            getGooglePlacesApi(mGoogleApiClient);
-
             mListView = (ListView) findViewById(R.id.listView);
             mListView.setLongClickable(true);
             mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -119,7 +115,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
                     final PubPlaceLikelihood pubPlace = pubPlaceLikelihoodAll.get(arg2);
 
-                    // Context context = getApplicationContext();
                     StringBuilder sb = new StringBuilder();
                     sb.append(pubPlace.getPlace().getAddress()).append("\n");
                     sb.append(pubPlace.getPlace().getPhoneNumber()).append("\n");
@@ -270,6 +265,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     protected void buildLocationSettingsRequest() {
         LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder();
         builder.addLocationRequest(mLocationRequest);
+        builder.setAlwaysShow(true);
         mLocationSettingsRequest = builder.build();
     }
 
@@ -279,7 +275,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         switch (status.getStatusCode()) {
             case LocationSettingsStatusCodes.SUCCESS:
                 Log.i(TAG, "All location settings are satisfied.");
-                //startLocationUpdates();
+                getGooglePlacesApi(mGoogleApiClient);
                 break;
             case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
                 Log.i(TAG, "Location settings are not satisfied. Show the user a dialog to" +
@@ -307,7 +303,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 switch (resultCode) {
                     case Activity.RESULT_OK:
                         Log.i(TAG, "User agreed to make required location settings changes.");
-                        //startLocationUpdates();
+                        getGooglePlacesApi(mGoogleApiClient);
                         break;
                     case Activity.RESULT_CANCELED:
                         Log.i(TAG, "User chose not to make required location settings changes.");
