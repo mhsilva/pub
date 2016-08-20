@@ -61,12 +61,17 @@ public class PubCallWaiterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_pub_call_waiter);
         mListView = (ListView) findViewById(R.id.listView2);
         setTitle(getIntent().getStringExtra("placeName"));
+        this.callWaiter();
     }
 
     public void callWaiterOnClick(View view) {
+       this.callWaiter();
+    }
+
+    public void callWaiter(){
         if(PubNetworkUtils.isNetworkAvailable(this)) {
 
-            dialog = PubAlertUtils.createDialog(this,getResources().getString(R.string.calling_waiter) );
+            dialog = PubAlertUtils.progressDialog(this,getResources().getString(R.string.calling_waiter) );
             dialog.show();
 
             PubCallWaiterRestHelper.callWaiterApi(this, (PubCallWaiter) getIntent().getExtras().getSerializable("pubCallWaiter"));

@@ -102,7 +102,7 @@ public class PubAlertUtils {
         alertDialog.show();
     }
 
-    public static Dialog createDialog(Activity activity, String message) {
+    public static Dialog progressDialog(Activity activity, String message) {
 
         ProgressDialog dialog = new ProgressDialog(activity);
         dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);

@@ -21,5 +21,6 @@
     <string name="affiliated_establishments">Affiliated establishments</string>
     <string name="not_affiliated_establishments">Not affiliated establishments</string>
     <string name="establishement_not_in_liist">The Establishement is not on this list?</string>
+    <string name="table_number_required">Table number is required</string>
 
 </resources>

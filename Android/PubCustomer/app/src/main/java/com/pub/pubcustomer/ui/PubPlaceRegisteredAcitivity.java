@@ -54,7 +54,7 @@ public class PubPlaceRegisteredAcitivity extends AppCompatActivity implements Ad
     private List<PlaceLikelihood> placeLikelihoodAll = new ArrayList<>();
     private List<PlaceLikelihood> placeLikelihoodRegistered = new ArrayList<>();
     private List<PubPlaceNotRegistered> pubPlaceNotRegisteredUnregistered = new ArrayList<>();
-    private List<String> checkLocationIdRegistered = new ArrayList<>();
+    private List<String> checkAllPlacesRegistered = new ArrayList<>();
     private Map<String, List<String>> checkLocationIdRegisteredMap = new HashMap<>();
     private static final String TAG = PubPlaceRegisteredAcitivity.class.getSimpleName();
     protected LocationRequest mLocationRequest;
@@ -105,7 +105,7 @@ public class PubPlaceRegisteredAcitivity extends AppCompatActivity implements Ad
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        dialog = PubAlertUtils.createDialog(this,getResources().getString(R.string.finding_places) );
+        dialog = PubAlertUtils.progressDialog(this,getResources().getString(R.string.finding_places) );
         dialog.show();
 
         super.onCreate(savedInstanceState);
@@ -169,7 +169,7 @@ public class PubPlaceRegisteredAcitivity extends AppCompatActivity implements Ad
                     if (PlaceFilter.contaisPlaceType(placeLikelihood.getPlace().getPlaceTypes())) {
 
                         placeLikelihoodAll.add(placeLikelihood.freeze());
-                        checkLocationIdRegistered.add(placeLikelihood.getPlace().getId());
+                        checkAllPlacesRegistered.add(placeLikelihood.getPlace().getId());
                     }
 
                     Log.d(TAG, String.format("Place '%s' with " + "likelihood: %g" + " with Id Place '%s'" + " with Place Types '%s'",
@@ -179,11 +179,13 @@ public class PubPlaceRegisteredAcitivity extends AppCompatActivity implements Ad
                 }
 
                 ///Check status from Establishement (active or inactive) on Pub Backend
-                if (checkLocationIdRegistered.size() > 0) {
-                    checkLocationIdRegisteredMap.put(PubConstants.LOCATION_ID_LIST, checkLocationIdRegistered);
+                if (checkAllPlacesRegistered.size() > 0) {
+                    checkLocationIdRegisteredMap.put(PubConstants.LOCATION_ID_LIST, checkAllPlacesRegistered);
                     PubEstablishmentRest pubEstablishmentRestHelper = new PubEstablishmentRest();
                     pubEstablishmentRestHelper.checkPubEstablishementsStatus(PubPlaceRegisteredAcitivity.this, checkLocationIdRegisteredMap);
                 } else {
+                    Toast.makeText(getApplicationContext(),
+                            "No places found around try again", Toast.LENGTH_SHORT).show();
                     dialog.dismiss();
                 }
 
@@ -224,7 +226,7 @@ public class PubPlaceRegisteredAcitivity extends AppCompatActivity implements Ad
 
                         } else {
                             Toast.makeText(getApplicationContext(),
-                                    "Table number is required", Toast.LENGTH_SHORT).show();
+                                    R.string.table_number_required, Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
