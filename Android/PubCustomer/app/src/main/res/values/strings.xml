@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Pub</string>
     <string name="loading">Loading</string>
+    <string name="select_establishement">Select the establishment</string>
     <string name="ok">OK</string>
     <string name="msg_alerta_permissao">Para utilizar este aplicativo, você precisa aceitar as permissões.</string>
     <string name="username">UserName</string>
@@ -17,5 +18,8 @@
     <string name="really_exit">You really want to close the application</string>
     <string name="finding_places">Finding places near you</string>
     <string name="calling_waiter">Calling Waiter</string>
+    <string name="affiliated_establishments">Affiliated establishments</string>
+    <string name="not_affiliated_establishments">Not affiliated establishments</string>
+    <string name="establishement_not_in_liist">The Establishement is not on this list?</string>
 
 </resources>

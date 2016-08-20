@@ -28,8 +28,9 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.pub.pubcustomer.MainActivity" />
+        <activity android:name=".ui.PubPlaceRegisteredAcitivity" />
         <activity android:name=".ui.PubCallWaiterActivity" />
+        <activity android:name=".ui.PubPlaceNotRegisteredActivity" />
 
         <service android:name=".rest.callwaiter.PubCallWaiterRestService"></service>
 

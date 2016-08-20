@@ -7,20 +7,20 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.google.android.gms.location.places.PlaceLikelihood;
 import com.pub.pubcustomer.R;
-import com.pub.pubcustomer.entity.PubPlaceLikelihood;
 
 import java.util.List;
 
 /**
  * Created by Fernando Santiago on 02/08/2016.
  */
-public class PubCurrentPlaceAdapter extends BaseAdapter {
+public class PubPlaceRegisteredAdapter extends BaseAdapter {
 
     private final Context context;
-    private final List<PubPlaceLikelihood> pubPlaceCollection;
+    private final List<PlaceLikelihood> pubPlaceCollection;
 
-    public PubCurrentPlaceAdapter(Context context,List<PubPlaceLikelihood> placecCollection ){
+    public PubPlaceRegisteredAdapter(Context context, List<PlaceLikelihood> placecCollection ){
         this.context = context;
         this.pubPlaceCollection = placecCollection;
     }
@@ -48,7 +48,7 @@ public class PubCurrentPlaceAdapter extends BaseAdapter {
         TextView tvLocationId = (TextView) view.findViewById(R.id.tLocationId);
         TextView tvTableNumber = (TextView) view.findViewById(R.id.tPlaceName);
 
-        PubPlaceLikelihood pubPlace = pubPlaceCollection.get(position);
+        PlaceLikelihood pubPlace = pubPlaceCollection.get(position);
 
         tvLocationId.setText(pubPlace.getPlace().getId());
         tvTableNumber.setText(pubPlace.getPlace().getName());

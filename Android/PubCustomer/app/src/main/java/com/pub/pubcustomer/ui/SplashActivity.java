@@ -6,7 +6,6 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-import com.pub.pubcustomer.MainActivity;
 import com.pub.pubcustomer.R;
 import com.pub.pubcustomer.utils.PubAlertUtils;
 import com.pub.pubcustomer.utils.PubNetworkUtils;
@@ -33,7 +32,7 @@ public class SplashActivity extends AppCompatActivity {
 
         if (ok) {
             if (PubNetworkUtils.isNetworkAvailable(this)) {
-                startActivity(new Intent(this, MainActivity.class));
+                startActivity(new Intent(this, PubPlaceRegisteredAcitivity.class));
             } else {
                 PubAlertUtils.errorDialog(this, getResources().getString(R.string.invalid_configuration), getResources().getString(R.string.no_network));
             }
@@ -54,7 +53,7 @@ public class SplashActivity extends AppCompatActivity {
             }
         }
 
-        startActivity(new Intent(this, MainActivity.class));
+        startActivity(new Intent(this, PubPlaceRegisteredAcitivity.class));
         finish();
     }
 }
