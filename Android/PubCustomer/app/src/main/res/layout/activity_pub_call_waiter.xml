@@ -1,35 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="bottom"
-    android:weightSum="1"
-    android:screenOrientation="portrait">
+    android:orientation="vertical"
+    android:screenOrientation="portrait"
+    android:weightSum="1">
 
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="393dp"
-        android:id="@+id/listView2"
-        android:layout_gravity="center_horizontal"
-        android:layout_weight="0.86" />
+    <!-- Footer aligned to bottom -->
+    <include
+        android:id="@+id/include2"
+        layout="@layout/footer" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Call Waiter"
-        android:id="@+id/button"
-        android:layout_gravity="center_horizontal"
-        android:layout_weight="0.02"
-        android:onClick="callWaiterOnClick"/>
-    <!--
+    <!-- Content below header and above footer -->
+    <RelativeLayout
+        android:id="@+id/content"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@+id/include2">
+
+        <ListView
+            android:id="@+id/listView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_gravity="center_horizontal" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/buttonLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/content">
         <Button
             android:id="@+id/button1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:text="Button"
-            android:background="@drawable/circle"
-            android:textColor="#f8fdf9"
-            android:layout_gravity="center_horizontal" />
-            -->
-</LinearLayout>
+            android:layout_gravity="center_horizontal"
+            android:onClick="callWaiterOnClick"
+            android:text="@string/call_waiter"
+            android:textColor="#00BCD4" />
+
+    </RelativeLayout>
+</RelativeLayout>

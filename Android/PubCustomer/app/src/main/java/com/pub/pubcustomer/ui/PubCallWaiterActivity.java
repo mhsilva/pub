@@ -71,7 +71,7 @@ public class PubCallWaiterActivity extends AppCompatActivity {
     public void callWaiter(){
         if(PubNetworkUtils.isNetworkAvailable(this)) {
 
-            dialog = PubAlertUtils.progressDialog(this,getResources().getString(R.string.calling_waiter) );
+            dialog = PubAlertUtils.createDialog(this,getResources().getString(R.string.calling_waiter) );
             dialog.show();
 
             PubCallWaiterRestHelper.callWaiterApi(this, (PubCallWaiter) getIntent().getExtras().getSerializable("pubCallWaiter"));

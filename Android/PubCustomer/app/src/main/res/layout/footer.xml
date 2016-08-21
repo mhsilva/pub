@@ -3,16 +3,17 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:layout_alignParentBottom="true"
-    android:background="#550000"
+    android:background="#303F9F"
     android:gravity="center_vertical"
     android:padding="10dip"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <TextView
         android:id="@+id/texto2"
-        android:layout_width="fill_parent"
+        android:layout_width="63dp"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:text="dsadaste"
-        android:textColor="#FFFFFF" />
+        android:text="@string/app_name"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        android:gravity="left" />
 </LinearLayout>

@@ -89,7 +89,7 @@ public class PubPlaceRegisteredAcitivity extends AppCompatActivity implements Ad
             if (placeLikelihoodRegistered.size()> 0) {
                 updateListView(placeLikelihoodRegistered);
             }else{
-                callEstablishementsNotRegistered();
+                //callEstablishementsNotRegistered();
             }
 
             dialog.dismiss();
@@ -105,7 +105,9 @@ public class PubPlaceRegisteredAcitivity extends AppCompatActivity implements Ad
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        dialog = PubAlertUtils.progressDialog(this,getResources().getString(R.string.finding_places) );
+        setTitle(getString(R.string.where_are_you));
+
+        dialog = PubAlertUtils.createDialog(this,getResources().getString(R.string.finding_places) );
         dialog.show();
 
         super.onCreate(savedInstanceState);
@@ -184,6 +186,7 @@ public class PubPlaceRegisteredAcitivity extends AppCompatActivity implements Ad
                     PubEstablishmentRest pubEstablishmentRestHelper = new PubEstablishmentRest();
                     pubEstablishmentRestHelper.checkPubEstablishementsStatus(PubPlaceRegisteredAcitivity.this, checkLocationIdRegisteredMap);
                 } else {
+                    //TODO How call again getGooglePlacesApi?
                     Toast.makeText(getApplicationContext(),
                             "No places found around try again", Toast.LENGTH_SHORT).show();
                     dialog.dismiss();
@@ -334,7 +337,7 @@ public class PubPlaceRegisteredAcitivity extends AppCompatActivity implements Ad
     }
 
 
-    public void callEstablishementsNotRegistered() {
+    public void callEstablishementsNotRegistered(View view) {
         Intent intent = new Intent(PubPlaceRegisteredAcitivity.this, PubPlaceNotRegisteredActivity.class);
         intent.putParcelableArrayListExtra("pubPlaceNotRegisteredUnregistered", (ArrayList<? extends Parcelable>) pubPlaceNotRegisteredUnregistered);
         startActivity(intent);
