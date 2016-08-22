@@ -39,6 +39,7 @@ import com.pub.pubcustomer.rest.establishment.PubEstablishmentRest;
 import com.pub.pubcustomer.utils.PubAlertUtils;
 import com.pub.pubcustomer.utils.PubConstants;
 import com.pub.pubcustomer.utils.PubNetworkUtils;
+import com.pub.pubcustomer.utils.PubObjectUtil;
 
 import org.springframework.util.StringUtils;
 
@@ -47,7 +48,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class PubPlaceRegisteredAcitivity extends AppCompatActivity implements AdapterView.OnItemClickListener,ResultCallback<LocationSettingsResult>  {
+public class PubPlaceRegisteredAcitivity extends AppCompatActivity implements AdapterView.OnItemClickListener, ResultCallback<LocationSettingsResult> {
 
     private GoogleApiClient mGoogleApiClient;
     private ListView mListView;
@@ -66,7 +67,10 @@ public class PubPlaceRegisteredAcitivity extends AppCompatActivity implements Ad
 
         @Override
         public void onReceive(Context context, Intent intent) {
+
             Bundle bundle = intent.getExtras();
+            PubPlaceNotRegistered pubPlaceNotRegistered;
+
             if (bundle != null) {
 
                 if (bundle.getBoolean(PubConstants.RESULT)) {
@@ -79,16 +83,32 @@ public class PubPlaceRegisteredAcitivity extends AppCompatActivity implements Ad
                         if (establishmentStatusByLocationId.get(pubPlaceLikelihoodAll.getPlace().getId())) {
                             placeLikelihoodRegistered.add(pubPlaceLikelihoodAll);
                         } else {
-                            pubPlaceNotRegisteredUnregistered.add(new PubPlaceNotRegistered(pubPlaceLikelihoodAll.getPlace().getId(),
-                                    pubPlaceLikelihoodAll.getPlace().getName().toString()));
+                            pubPlaceNotRegistered = new PubPlaceNotRegistered();
+
+                            if (pubPlaceLikelihoodAll.getPlace().getId() != null)
+                                pubPlaceNotRegistered.setId(pubPlaceLikelihoodAll.getPlace().getId());
+
+                            if (pubPlaceLikelihoodAll.getPlace().getAddress() != null)
+                                pubPlaceNotRegistered.setAddress(pubPlaceLikelihoodAll.getPlace().getAddress().toString());
+
+                            if (pubPlaceLikelihoodAll.getPlace().getName() != null)
+                                pubPlaceNotRegistered.setName(pubPlaceLikelihoodAll.getPlace().getName().toString());
+
+                            if (pubPlaceLikelihoodAll.getPlace().getPhoneNumber() != null)
+                                pubPlaceNotRegistered.setName(pubPlaceLikelihoodAll.getPlace().getName().toString());
+
+                            if (pubPlaceLikelihoodAll.getPlace().getWebsiteUri() != null)
+                                pubPlaceNotRegistered.setWebSiteUri(pubPlaceLikelihoodAll.getPlace().getWebsiteUri().toString());
+
+                            pubPlaceNotRegisteredUnregistered.add(pubPlaceNotRegistered);
                         }
                     }
                 }
             }
 
-            if (placeLikelihoodRegistered.size()> 0) {
+            if (placeLikelihoodRegistered.size() > 0) {
                 updateListView(placeLikelihoodRegistered);
-            }else{
+            } else {
                 //callEstablishementsNotRegistered();
             }
 
@@ -107,34 +127,34 @@ public class PubPlaceRegisteredAcitivity extends AppCompatActivity implements Ad
 
         setTitle(getString(R.string.where_are_you));
 
-        dialog = PubAlertUtils.createDialog(this,getResources().getString(R.string.finding_places) );
+        dialog = PubAlertUtils.createDialog(this, getResources().getString(R.string.finding_places));
         dialog.show();
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pub_registered);
 
-            mListView = (ListView) findViewById(R.id.listView);
-            mListView.setLongClickable(true);
-            mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        mListView = (ListView) findViewById(R.id.listView);
+        mListView.setLongClickable(true);
+        mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 
-                @Override
-                public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
-                                               int arg2, long arg3) {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
+                                           int arg2, long arg3) {
 
-                    final PlaceLikelihood pubPlace = placeLikelihoodAll.get(arg2);
+                final PlaceLikelihood pubPlace = placeLikelihoodRegistered.get(arg2);
 
-                    //TODO verify is value is different from null before append
-                    StringBuilder sb = new StringBuilder();
-                    sb.append(pubPlace.getPlace().getAddress()).append("\n");
-                    sb.append(pubPlace.getPlace().getPhoneNumber()).append("\n");
-                    sb.append(pubPlace.getPlace().getWebsiteUri()).append("\n");
+                //TODO verify is value is different from null before append
+                StringBuilder sb = new StringBuilder();
+                sb.append(PubObjectUtil.ifNull(pubPlace.getPlace().getAddress(), "")).append("\n");
+                sb.append(PubObjectUtil.ifNull(pubPlace.getPlace().getPhoneNumber(), "")).append("\n");
+                sb.append(PubObjectUtil.ifNull(pubPlace.getPlace().getWebsiteUri(), "")).append("\n");
 
-                    Toast toast = Toast.makeText(PubPlaceRegisteredAcitivity.this, sb, Toast.LENGTH_LONG);
-                    toast.show();
+                Toast toast = Toast.makeText(PubPlaceRegisteredAcitivity.this, sb, Toast.LENGTH_LONG);
+                toast.show();
 
-                    return true;
-                }
-            });
+                return true;
+            }
+        });
 
         buildGoogleApiClient();
         createLocationRequest();
@@ -158,7 +178,7 @@ public class PubPlaceRegisteredAcitivity extends AppCompatActivity implements Ad
 
     public void getGooglePlacesApi(GoogleApiClient mGoogleApiClient) throws SecurityException {
 
-       PendingResult<PlaceLikelihoodBuffer> result = Places.PlaceDetectionApi
+        PendingResult<PlaceLikelihoodBuffer> result = Places.PlaceDetectionApi
                 .getCurrentPlace(mGoogleApiClient, null);
 
         result.setResultCallback(new ResultCallback<PlaceLikelihoodBuffer>() {
@@ -329,11 +349,11 @@ public class PubPlaceRegisteredAcitivity extends AppCompatActivity implements Ad
     protected synchronized void buildGoogleApiClient() {
         Log.i(TAG, "Building GoogleApiClient");
         mGoogleApiClient = new GoogleApiClient
-                    .Builder(this)
-                    .addApi(Places.GEO_DATA_API)
-                    .addApi(Places.PLACE_DETECTION_API)
-                    .addApi(LocationServices.API)
-                    .build();
+                .Builder(this)
+                .addApi(Places.GEO_DATA_API)
+                .addApi(Places.PLACE_DETECTION_API)
+                .addApi(LocationServices.API)
+                .build();
     }
 
 

@@ -24,8 +24,6 @@ public class PlaceFilter {
         placesFilter.add(Place.TYPE_LIQUOR_STORE);
         placesFilter.add(Place.TYPE_NIGHT_CLUB);
         placesFilter.add(Place.TYPE_RESTAURANT);
-
-        //TODO Delete line below
         placesFilter.add(Place.TYPE_ESTABLISHMENT);
 
         return placesFilter;

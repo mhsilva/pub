@@ -20,7 +20,6 @@
     <string name="finding_places">Finding places near you</string>
     <string name="calling_waiter">Calling Waiter</string>
     <string name="affiliated_establishments">Affiliated establishments</string>
-    <string name="not_affiliated_establishments">Not affiliated establishments</string>
     <string name="establishement_not_in_liist">The Establishement is not on this list?</string>
     <string name="table_number_required">Table number is required</string>
     <string name="call_waiter">Call Waiter</string>

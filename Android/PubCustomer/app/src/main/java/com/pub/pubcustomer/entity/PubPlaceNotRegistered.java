@@ -8,13 +8,11 @@ import android.os.Parcelable;
  */
 public class PubPlaceNotRegistered implements Parcelable {
 
-    private  String id;
-    private  String name;
-
-    public PubPlaceNotRegistered(String id, String name) {
-        this.id = id;
-        this.name = name;
-    }
+    private String id;
+    private String name;
+    private String address;
+    private String phoneNumber;
+    private String webSiteUri;
 
     public String getId() {
         return id;
@@ -32,6 +30,31 @@ public class PubPlaceNotRegistered implements Parcelable {
         this.name = name;
     }
 
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getWebSiteUri() {
+        return webSiteUri;
+    }
+
+    public void setWebSiteUri(String webSiteUri) {
+        this.webSiteUri = webSiteUri;
+    }
+
+
     @Override
     public int describeContents() {
         return 0;
@@ -41,6 +64,9 @@ public class PubPlaceNotRegistered implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.id);
         dest.writeString(this.name);
+        dest.writeString(this.address);
+        dest.writeString(this.phoneNumber);
+        dest.writeString(this.webSiteUri);
     }
 
     public PubPlaceNotRegistered() {
@@ -49,6 +75,9 @@ public class PubPlaceNotRegistered implements Parcelable {
     protected PubPlaceNotRegistered(Parcel in) {
         this.id = in.readString();
         this.name = in.readString();
+        this.address = in.readString();
+        this.phoneNumber = in.readString();
+        this.webSiteUri = in.readString();
     }
 
     public static final Creator<PubPlaceNotRegistered> CREATOR = new Creator<PubPlaceNotRegistered>() {
