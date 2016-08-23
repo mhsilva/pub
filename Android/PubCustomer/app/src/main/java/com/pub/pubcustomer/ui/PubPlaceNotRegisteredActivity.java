@@ -1,6 +1,7 @@
 package com.pub.pubcustomer.ui;
 
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
@@ -9,6 +10,7 @@ import android.widget.Toast;
 
 import com.pub.pubcustomer.R;
 import com.pub.pubcustomer.entity.PubPlaceNotRegistered;
+import com.pub.pubcustomer.rest.establishment.PubEstablishmentRest;
 import com.pub.pubcustomer.utils.PubObjectUtil;
 
 import java.util.List;
@@ -41,10 +43,10 @@ public class PubPlaceNotRegisteredActivity extends AppCompatActivity implements 
                 final PubPlaceNotRegistered pubPlaceNotRegistered = pubPlaceNotRegisteredUnregistered.get(arg2);
 
                 StringBuilder sb = new StringBuilder();
-                sb.append(PubObjectUtil.ifNull(pubPlaceNotRegistered.getName(),"")).append("\n");
-                sb.append(PubObjectUtil.ifNull(pubPlaceNotRegistered.getAddress(),"")).append("\n");
-                sb.append(PubObjectUtil.ifNull(pubPlaceNotRegistered.getPhoneNumber(),"")).append("\n");
-                sb.append(PubObjectUtil.ifNull(pubPlaceNotRegistered.getWebSiteUri(),"")).append("\n");
+                sb.append(PubObjectUtil.ifNull(pubPlaceNotRegistered.getName(), "")).append("\n");
+                sb.append(PubObjectUtil.ifNull(pubPlaceNotRegistered.getAddress(), "")).append("\n");
+                sb.append(PubObjectUtil.ifNull(pubPlaceNotRegistered.getPhoneNumber(), "")).append("\n");
+                sb.append(PubObjectUtil.ifNull(pubPlaceNotRegistered.getWebSiteUri(), "")).append("\n");
                 Toast toast = Toast.makeText(PubPlaceNotRegisteredActivity.this, sb, Toast.LENGTH_LONG);
                 toast.show();
 
@@ -62,5 +64,14 @@ public class PubPlaceNotRegisteredActivity extends AppCompatActivity implements 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
+        //TODO move to receiver and put progress dialog
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle(getString(R.string.sending_information));
+        alert.setMessage((R.string.establishment_not_affiliated));
+        alert.setPositiveButton(R.string.ok, null);
+        alert.show();
+
+        PubEstablishmentRest pubEstablishmentRest = new PubEstablishmentRest();
+        pubEstablishmentRest.establishmentsNotAffiliated(pubPlaceNotRegisteredUnregistered.get(i));
     }
 }

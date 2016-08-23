@@ -224,7 +224,7 @@ public class PubPlaceRegisteredAcitivity extends AppCompatActivity implements Ad
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-        builder.setMessage("Type your table")
+        builder.setMessage(R.string.type_your_table)
                 .setTitle("Are you at ".concat(pubPlace.getPlace().getName().toString().concat(" ?")));
 
         final EditText tableNumber = new EditText(this);

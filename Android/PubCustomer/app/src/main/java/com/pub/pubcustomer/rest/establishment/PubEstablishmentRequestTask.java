@@ -29,7 +29,7 @@ import java.util.Map;
 public class PubEstablishmentRequestTask extends AsyncTask<Map<String, List<String>>, Void, ResponseEntity<PubEstablishmentStatus[]>> {
 
     private static final String TAG = PubEstablishmentRequestTask.class.getSimpleName();
-    private final String url = PubConstants.BASE_URL + PubConstants.REST_ESTABLISHIMENT_METHOD;
+    private final String URL = PubConstants.BASE_URL + PubConstants.REST_ESTABLISHIMENT_METHOD;
     private ResponseEntity<PubEstablishmentStatus[]> pubEstablishmentStatusCollection;
     private Context mContext;
 
@@ -45,7 +45,7 @@ public class PubEstablishmentRequestTask extends AsyncTask<Map<String, List<Stri
             restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
 
             //Build query parameters from URL, for example: https://pubbackend.herokuapp.com/establishment?locationIdList=ChIJb4x_rlvPyJQRI-DvjnJ6-n8,location2,location2..locationN
-            UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url)
+            UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(URL)
                     .queryParam(PubConstants.LOCATION_ID_LIST, TextUtils.join(",", checkLocationIdRegisteredMap[0].get(PubConstants.LOCATION_ID_LIST)));
 
             HttpHeaders headers = new HttpHeaders();

@@ -18,6 +18,7 @@ import org.springframework.web.client.RestTemplate;
 public class PubCallWaiterRequestTask extends AsyncTask<Void, Void, PubStatus> {
 
     private static final String TAG = PubCallWaiterRequestTask.class.getSimpleName();
+    private final String URL = PubConstants.BASE_URL + PubConstants.REST_CALL_WAITER_METHOD;
 
     private Context mContext;
     private PubCallWaiter pubCallWaiter;
@@ -34,7 +35,7 @@ public class PubCallWaiterRequestTask extends AsyncTask<Void, Void, PubStatus> {
         try {
             RestTemplate restTemplate = new RestTemplate();
             restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-            pubStatus = restTemplate.postForObject(PubConstants.BASE_URL + PubConstants.REST_CALL_WAITER_METHOD, this.pubCallWaiter, PubStatus.class);
+            pubStatus = restTemplate.postForObject(URL, this.pubCallWaiter, PubStatus.class);
         } catch (Throwable e) {
             Log.e(TAG, "doInBackground: Error! " + e.getMessage(), e);
         }

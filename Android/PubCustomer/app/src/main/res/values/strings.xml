@@ -4,7 +4,7 @@
     <string name="where_are_you">Where are You?</string>
     <string name="select_establishement">Select the establishment</string>
     <string name="ok">OK</string>
-    <string name="msg_alerta_permissao">Para utilizar este aplicativo, você precisa aceitar as permissões.</string>
+    <string name="msg_alerta_permissao">To use this application, fast You need to accept permissions</string>
     <string name="username">UserName</string>
     <string name="password">Password</string>
     <string name="cancel">Cancel</string>
@@ -24,4 +24,7 @@
     <string name="table_number_required">Table number is required</string>
     <string name="call_waiter">Call Waiter</string>
     <string name="location_not_listed">Location not listed?</string>
+    <string name="type_your_table">Type your table</string>
+    <string name="sending_information">Sending information</string>
+    <string name="establishment_not_affiliated">We will report to the team\'s Pub you stayed at Place.You can also inform the manager</string>
 </resources>
