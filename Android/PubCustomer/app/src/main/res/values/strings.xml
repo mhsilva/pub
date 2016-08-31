@@ -27,4 +27,19 @@
     <string name="type_your_table">Type your table</string>
     <string name="sending_information">Sending information</string>
     <string name="establishment_not_affiliated">We will report to the team\'s Pub you stayed at Place.You can also inform the manager</string>
+
+
+    <string name="country_prompt">Choose a country</string>
+
+    <string-array name="country_arrays">
+        <item>Malaysia</item>
+        <item>United States</item>
+        <item>Indonesia</item>
+        <item>France</item>
+        <item>Italy</item>
+        <item>Singapore</item>
+        <item>New Zealand</item>
+        <item>India</item>
+    </string-array>
+
 </resources>

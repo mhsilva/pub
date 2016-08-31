@@ -1,11 +1,13 @@
 package com.pub.pubcustomer.rest.establishment;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 
 import com.pub.pubcustomer.entity.PubEstablishmentsNotAffiliated;
 import com.pub.pubcustomer.entity.PubPlaceNotRegistered;
 import com.pub.pubcustomer.utils.PubConstants;
+import com.pub.pubcustomer.utils.PubObjectUtil;
 
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
@@ -35,6 +37,13 @@ public class PubEstablishmentsNotAffiliatedRequestTask  extends AsyncTask<PubPla
     @Override
     protected void onPostExecute(PubEstablishmentsNotAffiliated pubEstablishmentsNotAffiliated) {
 
+        //TODO tratar este retorno corretamente na Activity que chamou (PubPlaceNotRegisteredActivity)
+        Boolean result = false;
+        Intent intent = new Intent(PubConstants.CALL_PUB_ESTABLISHMENTS_NOT_AFFILIATED_API);
+
+        if(!PubObjectUtil.isEmpty(pubEstablishmentsNotAffiliated)){
+            result = true;
+        }
 
     }
 }

@@ -42,7 +42,14 @@
             android:onClick="callEstablishementsNotRegistered"
             android:text="@string/location_not_listed"
             android:textColor="#00BCD4" />
-
     </RelativeLayout>
+
+    <Spinner
+        android:id="@+id/popupspinnerTeste"
+        android:spinnerMode="dialog"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        />
 
 </RelativeLayout>

@@ -1,6 +1,7 @@
 package com.pub.pubcustomer.entity;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by Fernando Santiago on 11/08/2016.
@@ -10,8 +11,16 @@ import java.io.Serializable;
 public class PubEstablishmentStatus implements Serializable {
 
     private String locationId;
-
     private boolean registered;
+    private List<PubEstablishmentTables> tables;
+
+    public List<PubEstablishmentTables> getTables() {
+        return tables;
+    }
+
+    public void setTables(List<PubEstablishmentTables> tables) {
+        this.tables = tables;
+    }
 
     public String getLocationId() {
         return locationId;

@@ -15,7 +15,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -41,8 +40,6 @@ import com.pub.pubcustomer.utils.PubConstants;
 import com.pub.pubcustomer.utils.PubNetworkUtils;
 import com.pub.pubcustomer.utils.PubObjectUtil;
 
-import org.springframework.util.StringUtils;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -62,6 +59,11 @@ public class PubPlaceRegisteredAcitivity extends AppCompatActivity implements Ad
     protected LocationSettingsRequest mLocationSettingsRequest;
     protected static final int REQUEST_CHECK_SETTINGS = 0x1;
     private Dialog dialog;
+
+    //TODO DELETE
+    String[] DayOfWeek = {"Sunday", "Monday", "Tuesday",
+            "Wednesday", "Thursday", "Friday", "Saturday", "fe", "FA", "FSA",
+            "FSA", "ASFASS", "FXXSA", "WQFWQRWQ"};
 
     private BroadcastReceiver receiver = new BroadcastReceiver() {
 
@@ -106,7 +108,7 @@ public class PubPlaceRegisteredAcitivity extends AppCompatActivity implements Ad
                 }
             }
 
-            if (placeLikelihoodRegistered.size() > 0) {
+            if (!placeLikelihoodRegistered.isEmpty()) {
                 updateListView(placeLikelihoodRegistered);
             } else {
                 //callEstablishementsNotRegistered();
@@ -220,50 +222,7 @@ public class PubPlaceRegisteredAcitivity extends AppCompatActivity implements Ad
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int idx, long l) {
 
-        final PlaceLikelihood pubPlace = this.placeLikelihoodRegistered.get(idx);
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-        builder.setMessage(R.string.type_your_table)
-                .setTitle("Are you at ".concat(pubPlace.getPlace().getName().toString().concat(" ?")));
-
-        final EditText tableNumber = new EditText(this);
-        builder.setView(tableNumber);
-
-        builder.setPositiveButton(R.string.yes,
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-
-                        if (StringUtils.hasText(tableNumber.getText().toString())) {
-
-                            PubCallWaiter pubCallWaiter = new PubCallWaiter();
-                            pubCallWaiter.setLocationId(pubPlace.getPlace().getId());
-                            pubCallWaiter.setTableNumber(tableNumber.getText().toString());
-
-                            Intent intent = new Intent(PubPlaceRegisteredAcitivity.this, PubCallWaiterActivity.class);
-                            intent.putExtra("pubCallWaiter", pubCallWaiter);
-                            intent.putExtra("placeName", pubPlace.getPlace().getName());
-
-                            startActivity(intent);
-                            finish();
-
-                        } else {
-                            Toast.makeText(getApplicationContext(),
-                                    R.string.table_number_required, Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-
-        builder.setNegativeButton(R.string.no,
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        // Write your code here to execute after dialog
-                        dialog.cancel();
-                    }
-                });
-
-        AlertDialog dialog = builder.create();
-        dialog.show();
+        singleChoice(this.placeLikelihoodRegistered.get(idx));
     }
 
     @Override
@@ -360,6 +319,50 @@ public class PubPlaceRegisteredAcitivity extends AppCompatActivity implements Ad
     public void callEstablishementsNotRegistered(View view) {
         Intent intent = new Intent(PubPlaceRegisteredAcitivity.this, PubPlaceNotRegisteredActivity.class);
         intent.putParcelableArrayListExtra("pubPlaceNotRegisteredUnregistered", (ArrayList<? extends Parcelable>) pubPlaceNotRegisteredUnregistered);
+        startActivity(intent);
+        finish();
+    }
+
+    private void singleChoice(final PlaceLikelihood  placeLikelihood) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+
+        builder.setTitle("Single Choice");
+       // builder.setMessage("Choice one a table");
+        builder.setItems(DayOfWeek, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+               Toast.makeText(PubPlaceRegisteredAcitivity.this,
+                        DayOfWeek[which] + " Selected", Toast.LENGTH_LONG)
+                        .show();
+
+                dialog.dismiss();
+
+                callWiaterActivity(placeLikelihood,which);
+
+            }
+        });
+        builder.setNegativeButton("cancel",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+    public void callWiaterActivity(PlaceLikelihood  placeLikelihood, int selectedTable){
+
+        PubCallWaiter pubCallWaiter = new PubCallWaiter();
+        pubCallWaiter.setLocationId(placeLikelihood.getPlace().getId());
+        pubCallWaiter.setTableNumber(Integer.toString(selectedTable));
+
+        Intent intent = new Intent(PubPlaceRegisteredAcitivity.this, PubCallWaiterActivity.class);
+        intent.putExtra("pubCallWaiter", pubCallWaiter);
+        intent.putExtra("placeName", placeLikelihood.getPlace().getName());
+
         startActivity(intent);
         finish();
     }
