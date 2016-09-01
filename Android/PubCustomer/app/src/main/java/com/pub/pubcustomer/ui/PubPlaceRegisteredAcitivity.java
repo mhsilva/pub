@@ -332,7 +332,7 @@ public class PubPlaceRegisteredAcitivity extends AppCompatActivity implements Ad
             List<String> tables = new ArrayList<>();
 
             for (PubEstablishmentTables pubTables : pubEstablishmentTablesCollection) {
-                tables.add(pubTables.getTableNumber());
+                tables.add(" " + pubTables.getTableNumber() + " " + getString(R.string.avaliable) + ": " +  pubTables.isAvailable() );
             }
 
             String[] tablesArrTemp = new String[tables.size()];
@@ -341,21 +341,16 @@ public class PubPlaceRegisteredAcitivity extends AppCompatActivity implements Ad
             final String[] tablesArr = tablesArrTemp;
 
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Single Choice");
+            builder.setTitle(R.string.choose_your_table);
 
             builder.setItems(tablesArr, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    Toast.makeText(PubPlaceRegisteredAcitivity.this,
-                            tablesArr[which] + " Selected", Toast.LENGTH_LONG)
-                            .show();
-                    dialog.dismiss();
-
                     callWaiterActivity(placeLikelihood, tablesArr[which]);
 
                 }
             });
-            builder.setNegativeButton("cancel",
+            builder.setNegativeButton(R.string.cancel,
                     new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -367,10 +362,9 @@ public class PubPlaceRegisteredAcitivity extends AppCompatActivity implements Ad
 
         } else {
             Toast.makeText(PubPlaceRegisteredAcitivity.this,
-                    "Tables not found for this establishement", Toast.LENGTH_LONG)
+                   R.string.table_not_found, Toast.LENGTH_LONG)
                     .show();
         }
-
     }
 
     public void callWaiterActivity(PlaceLikelihood placeLikelihood, String selectedTable) {
