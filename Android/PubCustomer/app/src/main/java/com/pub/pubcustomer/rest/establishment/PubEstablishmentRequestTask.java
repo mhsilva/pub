@@ -83,13 +83,14 @@ public class PubEstablishmentRequestTask extends AsyncTask<Map<String, List<Stri
         mContext.sendBroadcast(intent);
     }
 
-    private HashMap<String, Boolean> copyArrayToMap(PubEstablishmentStatus[] pubEstablishmentStatusCollection) {
+    private HashMap<String, PubEstablishmentStatus> copyArrayToMap(PubEstablishmentStatus[] pubEstablishmentStatusCollection) {
 
-        HashMap<String, Boolean> establishmentStatusByLocationId
-                = new HashMap<String, Boolean>(pubEstablishmentStatusCollection.length);
+        HashMap<String, PubEstablishmentStatus> establishmentStatusByLocationId
+                = new HashMap<>(pubEstablishmentStatusCollection.length);
 
-        for (int i = 0; i < pubEstablishmentStatusCollection.length; i++) {
-            establishmentStatusByLocationId.put(pubEstablishmentStatusCollection[i].getLocationId(), pubEstablishmentStatusCollection[i].isRegistered());
+        for (PubEstablishmentStatus pubStatus : pubEstablishmentStatusCollection) {
+
+            establishmentStatusByLocationId.put(pubStatus.getLocationId(), pubStatus);
         }
 
         return establishmentStatusByLocationId;

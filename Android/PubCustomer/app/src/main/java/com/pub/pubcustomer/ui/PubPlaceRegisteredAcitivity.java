@@ -32,6 +32,8 @@ import com.google.android.gms.location.places.PlaceLikelihoodBuffer;
 import com.google.android.gms.location.places.Places;
 import com.pub.pubcustomer.R;
 import com.pub.pubcustomer.entity.PubCallWaiter;
+import com.pub.pubcustomer.entity.PubEstablishmentStatus;
+import com.pub.pubcustomer.entity.PubEstablishmentTables;
 import com.pub.pubcustomer.entity.PubPlaceNotRegistered;
 import com.pub.pubcustomer.places.PlaceFilter;
 import com.pub.pubcustomer.rest.establishment.PubEstablishmentRest;
@@ -59,11 +61,8 @@ public class PubPlaceRegisteredAcitivity extends AppCompatActivity implements Ad
     protected LocationSettingsRequest mLocationSettingsRequest;
     protected static final int REQUEST_CHECK_SETTINGS = 0x1;
     private Dialog dialog;
-
-    //TODO DELETE
-    String[] DayOfWeek = {"Sunday", "Monday", "Tuesday",
-            "Wednesday", "Thursday", "Friday", "Saturday", "fe", "FA", "FSA",
-            "FSA", "ASFASS", "FXXSA", "WQFWQRWQ"};
+    private PubEstablishmentStatus pubEstablishmentStatus;
+    private HashMap<String, PubEstablishmentStatus> pubEstablishmentStatusCollection;
 
     private BroadcastReceiver receiver = new BroadcastReceiver() {
 
@@ -77,12 +76,14 @@ public class PubPlaceRegisteredAcitivity extends AppCompatActivity implements Ad
 
                 if (bundle.getBoolean(PubConstants.RESULT)) {
 
-                    HashMap<String, Boolean> establishmentStatusByLocationId = (HashMap<String, Boolean>) bundle.getSerializable(PubConstants.PUB_ESTABLISHMENTS_STATUS);
+                    pubEstablishmentStatusCollection = (HashMap<String, PubEstablishmentStatus>) bundle.getSerializable(PubConstants.PUB_ESTABLISHMENTS_STATUS);
 
                     for (PlaceLikelihood pubPlaceLikelihoodAll : placeLikelihoodAll) {
 
+                        pubEstablishmentStatus = pubEstablishmentStatusCollection.get(pubPlaceLikelihoodAll.getPlace().getId());
+
                         //Establishment is registered
-                        if (establishmentStatusByLocationId.get(pubPlaceLikelihoodAll.getPlace().getId())) {
+                        if (pubEstablishmentStatus.isRegistered()) {
                             placeLikelihoodRegistered.add(pubPlaceLikelihoodAll);
                         } else {
                             pubPlaceNotRegistered = new PubPlaceNotRegistered();
@@ -323,41 +324,61 @@ public class PubPlaceRegisteredAcitivity extends AppCompatActivity implements Ad
         finish();
     }
 
-    private void singleChoice(final PlaceLikelihood  placeLikelihood) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    private void singleChoice(final PlaceLikelihood placeLikelihood) {
 
+        if (!PubObjectUtil.isEmpty(pubEstablishmentStatusCollection.get(placeLikelihood.getPlace().getId()).getTables())) {
 
-        builder.setTitle("Single Choice");
-       // builder.setMessage("Choice one a table");
-        builder.setItems(DayOfWeek, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-               Toast.makeText(PubPlaceRegisteredAcitivity.this,
-                        DayOfWeek[which] + " Selected", Toast.LENGTH_LONG)
-                        .show();
+            List<PubEstablishmentTables> pubEstablishmentTablesCollection = pubEstablishmentStatusCollection.get(placeLikelihood.getPlace().getId()).getTables();
+            List<String> tables = new ArrayList<>();
 
-                dialog.dismiss();
-
-                callWiaterActivity(placeLikelihood,which);
-
+            for (PubEstablishmentTables pubTables : pubEstablishmentTablesCollection) {
+                tables.add(pubTables.getTableNumber());
             }
-        });
-        builder.setNegativeButton("cancel",
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-        AlertDialog alert = builder.create();
-        alert.show();
+
+            String[] tablesArrTemp = new String[tables.size()];
+            tablesArrTemp = tables.toArray(tablesArrTemp);
+
+            final String[] tablesArr = tablesArrTemp;
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Single Choice");
+
+            builder.setItems(tablesArr, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Toast.makeText(PubPlaceRegisteredAcitivity.this,
+                            tablesArr[which] + " Selected", Toast.LENGTH_LONG)
+                            .show();
+                    dialog.dismiss();
+
+                    callWaiterActivity(placeLikelihood, tablesArr[which]);
+
+                }
+            });
+            builder.setNegativeButton("cancel",
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+            AlertDialog alert = builder.create();
+            alert.show();
+
+        } else {
+            Toast.makeText(PubPlaceRegisteredAcitivity.this,
+                    "Tables not found for this establishement", Toast.LENGTH_LONG)
+                    .show();
+        }
+
     }
 
-    public void callWiaterActivity(PlaceLikelihood  placeLikelihood, int selectedTable){
+    public void callWaiterActivity(PlaceLikelihood placeLikelihood, String selectedTable) {
+
 
         PubCallWaiter pubCallWaiter = new PubCallWaiter();
         pubCallWaiter.setLocationId(placeLikelihood.getPlace().getId());
-        pubCallWaiter.setTableNumber(Integer.toString(selectedTable));
+        pubCallWaiter.setTableNumber(selectedTable);
 
         Intent intent = new Intent(PubPlaceRegisteredAcitivity.this, PubCallWaiterActivity.class);
         intent.putExtra("pubCallWaiter", pubCallWaiter);

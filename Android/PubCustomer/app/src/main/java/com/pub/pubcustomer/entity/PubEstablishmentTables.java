@@ -1,6 +1,8 @@
 package com.pub.pubcustomer.entity;
 
-public class PubEstablishmentTables {
+import java.io.Serializable;
+
+public class PubEstablishmentTables implements Serializable {
 
 	private String tableNumber;
 	private boolean available;
